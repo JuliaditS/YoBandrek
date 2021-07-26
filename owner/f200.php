@@ -1,7 +1,9 @@
 <?php include 'includes/header.html' ?>
 
 <?php include 'includes/owner__navbar.php' ?>
-
+<?php if (!isset($_GET['page'])) {
+    header("Location: index.php");
+} ?>
 
 <div class="container">
     <div class="welcome__message">
