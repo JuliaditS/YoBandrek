@@ -1,3 +1,11 @@
+<?php
+session_start();
+if (!isset($_SESSION["id_Pegawai"]))
+    header("Location: index.php?error=2");
+if ($_SESSION["level"]!="barista") {
+    header("Location: index.php?error=2");
+}
+?>
 <div class="container">
     <nav class="navbar navbar-expand-lg navbar-light mt-3 px-2 rounded">
         <a class="navbar-brand" href="#">YoBandrek</a>
@@ -14,7 +22,7 @@
                     <a class="nav-link" href="#">Pemesanan</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Logout</a>
+                    <a class="nav-link" href="?page=logout">Logout</a>
                 </li>
             </ul>
         </div>

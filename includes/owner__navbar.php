@@ -1,4 +1,12 @@
 <?php include 'header.html' ?>
+<?php
+session_start();
+if (!isset($_SESSION["id_Pegawai"]))
+    header("Location: index.php?error=2");
+if ($_SESSION["level"]!="owner") {
+    header("Location: index.php?error=2");
+}
+?>
 <div class="container">
     <nav class="navbar navbar-expand-lg navbar-light mt-3 ps-2 pe-3  rounded">
         <a class="navbar-brand" href="f200.php">YoBandrek</a>
@@ -24,7 +32,7 @@
                     <a class="nav-link" href="f205.php">Laporan</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="login.php">Logout</a>
+                    <a class="nav-link" href="?page=logout">Logout</a>
                 </li>
             </ul>
         </div>
