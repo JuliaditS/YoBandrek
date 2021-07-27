@@ -1,5 +1,5 @@
 <?php include 'includes/header.html' ?>
-<?php include 'includes/barista__navbar.php' ?>
+<?php include 'includes/barista__navbar.html' ?>
 
 <section id="cover">
     <div id="cover-caption">

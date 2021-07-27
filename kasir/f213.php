@@ -1,6 +1,6 @@
 <?php include 'includes/header.html' ?>
 
-<?php include 'includes/kasir__navbar.php' ?>
+<?php include 'includes/kasir__navbar.html' ?>
 
 <div class="container mt-5">
     <div class="row">
