@@ -1,5 +1,5 @@
-<?php include '../includes/header.html' ?>
-<?php include '../includes/owner__navbar.php' ?>
+<?php include 'includes/header.html' ?>
+<?php include 'includes/owner__navbar.php' ?>
 <?php 
     $koneksi = mysqli_connect("localhost", "root", "", "yobandrek");
     $data = mysqli_query($koneksi,"SELECT* FROM data_pegawai");
@@ -60,4 +60,4 @@
 
 
 
-<?php include '../includes/footer.html' ?>
+<?php include 'includes/footer.html' ?>

@@ -1,5 +1,5 @@
-<?php include '../includes/header.html' ?>
-<?php include '../includes/owner__navbar.php' ?>
+<?php include 'includes/header.html' ?>
+<?php include 'includes/owner__navbar.php' ?>
  
 <?php 
     $pesan = "";
@@ -114,4 +114,4 @@
     </div>
 </section>
 
-<?php include '../includes/footer.html' ?>
+<?php include 'includes/footer.html' ?>
