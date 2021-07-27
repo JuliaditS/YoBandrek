@@ -1,11 +1,5 @@
-<?php  
-// session_start();
-// if(isset($_SESSION["id_Pegawai"])){
-//     header("Location: index-admin.php");
-// } else
-// session_destroy();
-?>
 <?php
+session_start(); //session start cukup satu dipaling atas
 // header('Location: ?page=home');
 if (isset($_GET['page'])) {
     $page = isset($_GET['page']) ? $_GET['page'] : "";
