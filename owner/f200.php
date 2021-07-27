@@ -7,7 +7,7 @@
 
 <div class="container">
     <div class="welcome__message">
-        <P class="mt-5">Selamat datang di dashboard admin</P>
+        <P class="mt-5">Selamat datang di dashboard Owner</P>
         <P>Silahkan pilih menu pada navigasi bar</P>
     </div>
 

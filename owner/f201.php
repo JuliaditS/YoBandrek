@@ -1,7 +1,9 @@
-<?php include 'includes/header.html' ?>
-
-<?php include 'includes/owner__navbar.php' ?>
-
+<?php include '../includes/header.html' ?>
+<?php include '../includes/owner__navbar.php' ?>
+<?php 
+    $koneksi = mysqli_connect("localhost", "root", "", "yobandrek");
+    $data = mysqli_query($koneksi,"SELECT* FROM data_pegawai");
+ ?>
 <div class="container">
     <div class="row mt-5">
         <div class="col-6 col-md-9">
@@ -27,42 +29,18 @@
             <th class="col-md-4">Nama</th>
             <th class="col-md-2">Aksi</th>
         </tr>
+        <?php 
+        foreach($data as $dataPegawai){ ?>
         <tr>
-            <td>10119147</td>
-            <td>JuliaditS</td>
-            <td>Juliadit Syahputra</td>
+            <td><?= $dataPegawai['id_Pegawai']; ?></td>
+            <td><?= $dataPegawai['username']; ?></td>
+            <td><?= $dataPegawai['nama']; ?></td>
             <td>
-                <a href="f203.php" class="btn btn-warning"><i class='bx bx-edit'></i></a>
-                <a href="" class="btn btn-danger"><i class='bx bx-trash'></i></a>
+                <a href="f203.php?id_Pegawai=<?php echo $dataPegawai["id_Pegawai"]; ?>" class="btn btn-warning"><i class='bx bx-edit'></i></a>
+                <a href="aksiHapus.php?id_Pegawai=<?php echo $dataPegawai["id_Pegawai"]; ?>" onclick="return confirm('Yakin?')" class="btn btn-danger"><i class='bx bx-trash'></i></a>
             </td>
         </tr>
-        <tr>
-            <td>10119167</td>
-            <td>SidiqSJY</td>
-            <td>Sidiq Sanjaya Bakti</td>
-            <td>
-                <a href="f203.php" class="btn btn-warning"><i class='bx bx-edit'></i></a>
-                <a href="" class="btn btn-danger"><i class='bx bx-trash'></i></a>
-            </td>
-        </tr>
-        <tr>
-            <td>10119152</td>
-            <td>Resaendr</td>
-            <td>Resa Endrawan</td>
-            <td>
-                <a href="f203.php" class="btn btn-warning"><i class='bx bx-edit'></i></a>
-                <a href="" class="btn btn-danger"><i class='bx bx-trash'></i></a>
-            </td>
-        </tr>
-        <tr>
-            <td>10119143</td>
-            <td>Adekur</td>
-            <td>Ade Kurniawan</td>
-            <td>
-                <a href="f203.php" class="btn btn-warning"><i class='bx bx-edit'></i></a>
-                <a href="" class="btn btn-danger"><i class='bx bx-trash'></i></a>
-            </td>
-        </tr>
+        <?php } ?>
     </table>
     <nav aria-label="Page navigation example">
         <ul class="pagination justify-content-center">
@@ -82,4 +60,4 @@
 
 
 
-<?php include 'includes/footer.html' ?>
+<?php include '../includes/footer.html' ?>
