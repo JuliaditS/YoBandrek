@@ -1,11 +1,11 @@
-<?php include 'includes/header.html' ?>
-<?php include 'includes/barista__navbar.html' ?>
+<?php include 'includes/header.html'; ?>
+<?php include 'includes/barista__navbar.php'; ?>
 
 <div class="container">
     <div class="row mt-5">
         <div class="col-6 col-md-9">
             <div class="tbhdata__search">
-                <a href="f222.php" class="btn btnnew__medium d-inline">+ Rekomendasi Menu</a>
+                <a href="?page=tambahrekomendasi" class="btn btnnew__medium d-inline">+ Rekomendasi Menu</a>
             </div>
         </div>
 

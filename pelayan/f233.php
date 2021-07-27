@@ -1,13 +1,13 @@
 <?php include 'includes/header.html' ?>
-<?php include 'includes/pelayan__navbar.html' ?>
+<?php include 'includes/pelayan__navbar.php' ?>
 
 <div class="container mt-3">
     <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
         <div class="btn-group me-2" role="group" aria-label="First group">
-            <a href="f236.php" type="button" class="btn btnnew__medium"> <i class='bx bx-plus-circle'> </i>Tambah</a>
+            <a href="?page=tambahmeja" type="button" class="btn btnnew__medium"> <i class='bx bx-plus-circle'> </i>Tambah</a>
         </div>
         <div class="btn-group mr-2" role="group" aria-label="Second group">
-            <a href="f237.php" type="button" class="btn btn-warning"><i class='bx bx-edit'></i> Edit Meja</a>
+            <a href="?page=editmeja" type="button" class="btn btn-warning"><i class='bx bx-edit'></i> Edit Meja</a>
         </div>
     </div>
 </div>

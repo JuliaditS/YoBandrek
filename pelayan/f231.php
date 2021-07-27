@@ -1,5 +1,5 @@
 <?php include 'includes/header.html' ?>
-<?php include 'includes/pelayan__navbar.html' ?>
+<?php include 'includes/pelayan__navbar.php' ?>
 <div class="container">
     <div class="row mt-5">
         <div class="col-6 col-md-9">

@@ -1,6 +1,6 @@
 <?php include 'includes/header.html' ?>
 
-<?php include 'includes/kasir__navbar.html' ?>
+<?php include 'includes/kasir__navbar.php' ?>
 
 <section id="cover">
     <div id="cover-caption">

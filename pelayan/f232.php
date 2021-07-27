@@ -1,10 +1,10 @@
-<?php include 'includes/header.html' ?>
-<?php include 'includes/pelayan__navbar.html' ?>
+<?php include 'includes/header.html'; ?>
+<?php include 'includes/pelayan__navbar.php'; ?>
 <div class="container">
     <div class="row mt-5">
         <div class="col-6 col-md-9">
             <div class="tbhdata__search">
-                <a href="f234.php" class="btn btnnew__medium d-inline">Tambah Meja</a>
+                <a href="?page=tambahmeja" class="btn btnnew__medium d-inline">Tambah Meja</a>
                 <h5 class="my-3">List Meja</h5>
             </div>
         </div>
