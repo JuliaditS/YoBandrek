@@ -1,5 +1,8 @@
 <?php 
-    $koneksi = mysqli_connect("localhost", "root", "", "yobandrek");
+    include 'includes/functions.php';
+
+    //BELUM ADA PANGGIL KONEKSI 
+
     $id_Pegawai = $_GET["id_Pegawai"];
     $hapus = mysqli_query($koneksi,"DELETE FROM data_pegawai WHERE id_Pegawai=$id_Pegawai");
 

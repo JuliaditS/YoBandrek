@@ -1,7 +1,11 @@
 <?php include 'includes/header.html' ?>
 <?php include 'includes/owner__navbar.php' ?>
+<?php include 'includes/functions.php' ?>
  
 <?php 
+
+    //BELUM ADA PANGGIL KONEKSI 
+
     $pesan = "";
     if(isset($_POST['submit'])){
         $nama = htmlspecialchars($_POST['nama']);
@@ -34,7 +38,6 @@
             
         }else{
             $md5 = md5($password);
-            $koneksi = mysqli_connect("localhost", "root", "", "yobandrek");
             $masuk = mysqli_query($koneksi,"INSERT INTO data_pegawai VALUES('','$username','$md5','$nama','$level')");
             
             if($masuk){

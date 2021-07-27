@@ -1,7 +1,9 @@
 <?php include 'includes/header.html' ?>
 <?php include 'includes/owner__navbar.php' ?>
+<?php include 'includes/functions.php' ?>
 <?php 
-    $koneksi = mysqli_connect("localhost", "root", "", "yobandrek");
+    //BELUM ADA PANGGIL KONEKSI 
+
     $data = mysqli_query($koneksi,"SELECT* FROM data_pegawai");
  ?>
 <div class="container">

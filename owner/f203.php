@@ -1,8 +1,11 @@
-<?php include '../includes/header.html' ?>
-<?php include '../includes/owner__navbar.php' ?>
+<?php include 'includes/header.html' ?>
+<?php include 'includes/owner__navbar.php' ?>
+<?php include 'includes/functions.php' ?>
 <?php 
+
+    //BELUM ADA PANGGIL KONEKSI 
+
     $pesan = "";
-    $koneksi = mysqli_connect("localhost", "root", "", "yobandrek");
     $id_Pegawai = $_GET["id_Pegawai"];
     $ambil = mysqli_query($koneksi,"SELECT * FROM data_pegawai WHERE id_Pegawai = $id_Pegawai");
     $data = mysqli_fetch_array($ambil);
