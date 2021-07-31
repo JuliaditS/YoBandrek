@@ -1,6 +1,5 @@
 <?php include 'header.html' ?>
 <?php
-session_start();
 if (!isset($_SESSION["id_Pegawai"]))
     header("Location: index.php?error=2");
 if ($_SESSION["level"]!="owner") {

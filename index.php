@@ -1,5 +1,4 @@
 <?php  
- session_start();
  require "includes/functions.php";
 // if(isset($_SESSION["id_Pegawai"])){
 //     header("Location: index-admin.php");

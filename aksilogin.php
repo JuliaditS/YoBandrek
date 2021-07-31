@@ -1,4 +1,4 @@
-<?php include './includes/functions.php';
+<?php 
 
 if($conn === false){
 	header("Location: ?page=&&error=1");
