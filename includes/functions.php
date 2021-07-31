@@ -1,7 +1,18 @@
 <?php 
-define("DEVELOPMENT", TRUE);
+session_start();
+$host       =   "localhost";
+$user       =   "root";
+$password   =   "123";
+$database   =   "yobandrek";
+$conn = mysqli_connect($host, $user, $password, $database);
+    if($conn === false){
+        die("ERROR: Could not connect. " . mysqli_connect_error());
+    }
+
+
+//define("DEVELOPMENT", TRUE);
 function dbConnect(){
-    $db=new mysqli("localhost:3306","root","","yobandrek");// Sesuaikan dengan konfigurasi server anda.
-    return $db;
+$db = new mysqli("$host", "$user", "$password", "$database"); // Sesuaikan dengan konfigurasi server anda.
+return $db;
 }
 ?>
