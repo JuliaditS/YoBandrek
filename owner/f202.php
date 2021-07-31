@@ -92,10 +92,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                                 <div class="col-md-6">
                                     <select class="form-select" name="level" aria-label="Default select example">
                                         <option selected>Pilih level</option>
-                                        <option value="1">Owner</option>
-                                        <option value="2">Pelayan</option>
-                                        <option value="3">Barista</option>
-                                        <option value="4">Kasir</option>
+                                        <option value="owner">Owner</option>
+                                        <option value="pelayan">Pelayan</option>
+                                        <option value="barista">Barista</option>
+                                        <option value="kasir">Kasir</option>
                                     </select>
                                 </div>
                             </div>
