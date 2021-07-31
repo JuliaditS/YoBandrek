@@ -1,6 +1,6 @@
-<?php include 'includes/header.html' ?>
-<?php include 'includes/barista__navbar.html' ?>
-
+<?php include 'includes/header.html';
+include 'includes/barista__navbar.php';
+?>
 <div class="container mt-5">
     <div class="row">
         <div class="col-6 col-md-9">
