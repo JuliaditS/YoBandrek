@@ -19,7 +19,10 @@ if (isset($_SESSION["id_Pegawai"])){
 <div class="container">
     <div class="login__card card mx-auto my-auto mt-5">
         <div class=" card-body">
-            <h3 class="card-title text-center mb-5 my-3">Login Admin</h3>
+            <h3 class="card-title text-center mb-5 my-3">Login</h3>
+            <?php
+            include "errorinfo.php";
+            ?>
             <form method="POST" action="?page=aksilogin">
                 <div class="mb-3">
                     <input type="text" name="username" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Username">
