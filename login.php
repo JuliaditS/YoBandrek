@@ -1,7 +1,5 @@
-<?php include './includes/functions.php' ?>
 <?php include 'includes/header.html'; ?>
 <?php
-session_start();
 if (isset($_SESSION["id_Pegawai"])){
     if ($_SESSION["level"]=="owner") {
         header("Location: ?page=owner");

@@ -1,23 +1,21 @@
 <?php include './includes/functions.php';
-$db=dbConnect();
-if($db->connect_errno!=0){
+
+if($conn === false){
 	header("Location: ?page=&&error=1");
 } elseif (!isset($_POST["TblLogin"])) {
 	header("Location: ?page=&&error=2");
 } else{
-	$username=$db->escape_string($_POST["username"]);
-	$sql="SELECT * FROM data_pegawai WHERE username='$username'";
-	$res=$db->query($sql);
-	if ($res->num_rows==0) {
+	$username=$_POST["username"];
+	$sql= mysqli_query($conn, "SELECT * FROM data_pegawai WHERE username='$username'");
+	if (mysqli_num_rows($sql)==0) {
 		header("Location: ?page=&&error=3");
 	} else{
-		$password=$db->escape_string($_POST["password"]);
-		$sql1="SELECT * FROM data_pegawai WHERE username='$username' and password=md5('$password')";
-		$res1=$db->query($sql1);
-		if ($res1->num_rows==0) {
+		$password=$_POST["password"];
+		$sql1=mysqli_query($conn, "SELECT * FROM data_pegawai WHERE username='$username' and password=md5('$password')");
+		if (mysqli_num_rows($sql1)==0) {
 			header("Location: ?page=&&error=4");
 		} else {
-			$data=$res->fetch_assoc();
+			$data=mysqli_fetch_array($sql1);
 			session_start();
 			$_SESSION["id_Pegawai"]=$data["id_Pegawai"];
 			$_SESSION["username"]=$data["username"];
