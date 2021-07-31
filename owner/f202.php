@@ -4,7 +4,7 @@ if (!isset($_GET['page'])) {
 } 
 include 'includes/header.html';
 include 'includes/owner__navbar.php'; 
-
+error_reporting(0);
 if($_SERVER["REQUEST_METHOD"] == "POST"){ 
 
     $nama   = htmlspecialchars($_POST['nama']);
@@ -41,7 +41,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             $pesan = "<div class='alert alert-success' role='alert'>
                       Tambah data pegawai berhasil
                     </div>";
-                    Header("location: ?page=listpegawai");
+                    Header("location: ?page=listpegawai&level=".$_POST['level']);
         }else{
             $pesan = "<div class='alert alert-danger' role='alert'>
                       Tambah data pegawai gagal
