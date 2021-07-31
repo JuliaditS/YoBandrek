@@ -21,6 +21,7 @@ if ($_SESSION["level"]!="owner") {
                         Pegawai
                     </a>
                     <ul class="navbar__dropdownowner dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <li><a class="dropdown-item" href="?page=listpegawai&level=owner">Owner</a></li>
                         <li><a class="dropdown-item" href="?page=listpegawai&level=kasir">Kasir</a></li>
                         <li><a class="dropdown-item" href="?page=listpegawai&level=pelayan">Pelayan</a></li>
                         <li><a class="dropdown-item" href="?page=listpegawai&level=barista">Barista</a></li>
