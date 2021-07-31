@@ -15,10 +15,10 @@ if ($_SESSION["level"]!="kasir") {
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav ms-auto text-center">
                 <li class="nav-item">
-                    <a class="nav-link" href="f211.php">Pembayaran</a>
+                    <a class="nav-link" href="?page=listdatabayar">Pembayaran</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="f213.php">Laporan</a>
+                    <a class="nav-link" href="?page=laporan">Laporan</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="?page=logout">Logout</a>

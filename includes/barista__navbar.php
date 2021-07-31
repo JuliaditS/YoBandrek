@@ -1,4 +1,5 @@
 <?php
+session_start();
 if (!isset($_SESSION["id_Pegawai"]))
     header("Location: index.php?error=2");
 if ($_SESSION["level"]!="barista") {
@@ -15,10 +16,10 @@ if ($_SESSION["level"]!="barista") {
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav ms-auto text-center">
                 <li class="nav-item">
-                    <a class="nav-link" href="f221.php">List Menu</a>
+                    <a class="nav-link" href="?page=listmenub">List Menu</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Pemesanan</a>
+                    <a class="nav-link" href="?page=listpemesanan">Pemesanan</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="?page=logout">Logout</a>
