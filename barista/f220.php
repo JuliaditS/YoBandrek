@@ -1,8 +1,12 @@
-<?php include 'includes/header.html' ?>
-<?php include 'includes/barista__navbar.php' ?>
-<?php if (!isset($_GET['page'])) {
+<?php include 'includes/header.html';
+include 'includes/barista__navbar.php';
+if (!isset($_GET['page'])) {
     header("Location: index.php");
-} ?>
+} 
+$jmlpes =mysqli_num_rows(mysqli_query($conn, "SELECT * FROM data_pemesanan"));
+$mngpes =mysqli_num_rows(mysqli_query($conn, "SELECT * FROM data_pemesanan WHERE status_pesanan ='diproses'"));
+$jmlsiap=mysqli_num_rows(mysqli_query($conn, "SELECT * FROM data_pemesanan WHERE status_pesanan ='disajikan'"));
+?>
 
 <div class="container">
     <div class="welcome__message">
@@ -16,7 +20,7 @@
                 <div class="card card__infoowner">
                     <div class="card-body text-center">
                         <h5 class="card-title">Jumlah Pemesanan</h5>
-                        <h3 class="card-text">20</h3>
+                        <h3 class="card-text"><?php echo $jmlpes;?></h3>
                     </div>
                 </div>
             </div>
@@ -24,7 +28,7 @@
                 <div class="card card__infoowner">
                     <div class="card-body text-center">
                         <h5 class="card-title">Menunggu Pemesanan</h5>
-                        <h3 class="card-text">20</h3>
+                        <h3 class="card-text"><?php echo $mngpes;?></h3>
                     </div>
                 </div>
             </div>
@@ -32,7 +36,7 @@
                 <div class="card card__infoowner">
                     <div class="card-body text-center">
                         <h5 class="card-title">Jumlah Pesanan Siap</h5>
-                        <h3 class="card-text">3</h3>
+                        <h3 class="card-text"><?php echo $jmlsiap; ?></h3>
                     </div>
                 </div>
             </div>
