@@ -63,7 +63,7 @@ error_reporting(0);
             <td><?php echo $datas['nama'];?></td>
             <td>
                 <a href="?page=editpegawai&onpegawai=<?php echo $datas['id_Pegawai'];?>" class="btn btn-warning"><i class='bx bx-edit'></i></a>
-                <a href="?page=hapuspegawai&onpegawai=<?php echo $datas['id_Pegawai'];?>" class="btn btn-danger"><i class='bx bx-trash'></i></a>
+                <a href="?page=hapuspegawai&onpegawai=<?php echo $datas['id_Pegawai'];?>&level=<?php echo$datas['level'];?>" class="btn btn-danger"><i class='bx bx-trash'></i></a>
             </td>
         </tr>
         <?php } ?>

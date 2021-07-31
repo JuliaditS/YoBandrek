@@ -28,7 +28,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         mysqli_query($conn, "UPDATE `data_pegawai` SET `level` = '$level' WHERE `data_pegawai`.`id_Pegawai` = $onuser");
     }
     
-    header("location: ?page=listpegawai");
+    Header("location: ?page=listpegawai&level=".$_POST['level']);
 }
 ?>
 <section id="cover">
