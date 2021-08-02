@@ -1,11 +1,11 @@
-<?php 
+<?php
 include 'includes/header.html';
-include 'includes/pelayan__navbar.php'; 
-if($_SERVER["REQUEST_METHOD"] == "POST"){
+include 'includes/pelayan__navbar.php';
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $noja = $_POST['nomeja'];
-    $jukur= $_POST['jukur'];
+    $jukur = $_POST['jukur'];
     mysqli_query($conn, "INSERT INTO `data_meja` (`no_meja`, `jumlah_kursi`) VALUES ('$noja', '$jukur')");
-    mysqli_query($conn, "INSERT INTO `detail_meja` (`no_meja`, `no_pemesanan`, `status`) VALUES ('$noja', NULL, 'tersedia')");
+    mysqli_query($conn, "INSERT INTO `deta_meja` (`no_meja`, `no_pemesanan`, `status`) VALUES ('$noja', NULL, 'tersedia')");
     header("location: ?page=listmeja");
 }
 ?>
@@ -44,8 +44,22 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                                     <button type="submit" class="btn btnnew__medium ">Tambah</button>
                                 </div>
                             </div>
-
                         </form>
+                        <?php
+                        if (isset($_POST['Submit'])) {
+                            $noja = $_POST['nomeja'];
+                            $jukur = $_POST['jukur'];
+
+                            // include database connection file
+                            include_once("config.php");
+
+                            // Insert user data into table
+                            $result = mysqli_query($mysqli, "INSERT INTO `data_meja` (`no_meja`, `jumlah_kursi`) VALUES ('$noja', '$jukur')");
+
+                            // Show message when user added
+                            echo "User added successfully. <a href='index.php'>View Users</a>";
+                        }
+                        ?>
                     </div>
                 </div>
             </div>
@@ -53,16 +67,15 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     </div>
 </section>
 <script>
-function nomor(elem){
+    function nomor(elem) {
         //no reason to create a jQuery object just use this.value
-          var nomor = document.getElementById("nomeja").value;
-          $.post("pelayan/ceknomormeja.php",
-            {
+        var nomor = document.getElementById("nomeja").value;
+        $.post("pelayan/ceknomormeja.php", {
                 nomor
             },
-            function(data,status){
+            function(data, status) {
                 document.getElementById("cek").innerHTML = data;
             });
-}
+    }
 </script>
 <?php include 'includes/footer.html' ?>
