@@ -21,7 +21,7 @@ include 'includes/pelayan__navbar.php';
     <div class="row mt-5">
         <div class="col-6 col-md-9">
             <div class="tbhdata__search">
-                <a href="cetak.php" class="btn btnnew__medium d-inline">Cetak Menu</a>
+                <a href="pelayan/cetak.php" class="btn btnnew__medium d-inline">Cetak Menu</a>
                 <h5 class="my-3">List Menu</h5>
             </div>
         </div>

@@ -22,7 +22,7 @@
     $(document).ready(function() {
         setInterval(function() {
             loadmeja();
-        }, 1000);
+        }, 10000);
         loadmeja();
 
         function loadmeja() {
