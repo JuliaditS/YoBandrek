@@ -1,23 +1,23 @@
 <?php include 'includes/header.html'; ?>
 <?php
-if (isset($_SESSION["id_Pegawai"])){
-    if ($_SESSION["level"]=="owner") {
+if (isset($_SESSION["id_Pegawai"])) {
+    if ($_SESSION["level"] == "owner") {
         header("Location: ?page=owner");
-    } elseif ($_SESSION["level"]=="barista") {
+    } elseif ($_SESSION["level"] == "barista") {
         header("Location: ?page=barista");
-    } elseif ($_SESSION["level"]=="kasir") {
+    } elseif ($_SESSION["level"] == "kasir") {
         header("Location: ?page=kasir");
-    } elseif ($_SESSION["level"]=="pelayan") {
+    } elseif ($_SESSION["level"] == "pelayan") {
         header("Location: ?page=pelayan");
     }
-} else{
+} else {
     session_destroy();
 }
 ?>
 <div class="container">
     <div class="login__card card mx-auto my-auto mt-5">
         <div class=" card-body">
-            <h3 class="card-title text-center mb-5 my-3">Login</h3>
+            <h3 class="card-title text-center mb-2 my-3">Login</h3>
             <?php
             include "errorinfo.php";
             ?>
