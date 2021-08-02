@@ -112,9 +112,9 @@ function getListPemesanan($halaman_awal=Null, $batas=Null, $tipe="semua", $cari=
     $db = dbConnect();
     if ($db->connect_errno == 0) {
         if ($tipe=="semua")
-            $sql = "SELECT * FROM `data_pemesanan` ORDER BY status_pesanan asc ".(($halaman_awal==Null&&$batas==Null) ? "" : "limit $halaman_awal, $batas");
+            $sql = "SELECT * FROM `data_pemesanan` WHERE no_pemesanan NOT IN (SELECT no_pemesanan FROM `data_pembayaran`) ORDER BY status_pesanan asc ".(($halaman_awal==Null&&$batas==Null) ? "" : "limit $halaman_awal, $batas");
         else
-            $sql = "SELECT * FROM `data_pemesanan` WHERE no_pemesanan LIKE '%$cari%' ORDER BY status_pesanan asc ".(($halaman_awal==Null&&$batas==Null) ? "" : "limit $halaman_awal, $batas");  
+            $sql = "SELECT * FROM `data_pemesanan` WHERE no_pemesanan NOT IN (SELECT no_pemesanan FROM `data_pembayaran`) AND (no_pemesanan LIKE '%$cari%') ORDER BY status_pesanan asc ".(($halaman_awal==Null&&$batas==Null) ? "" : "limit $halaman_awal, $batas");  
         $res = $db->query($sql);
         if ($res) {
             $data = $res->fetch_all(MYSQLI_ASSOC);

@@ -68,7 +68,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 <?php 
                 if ($out['keterangan']=="divalidasi") {
                     ?>
-                    <form action="?page=listmenub" method="POST" class="d-flex justify-end" >
+                    <form action="?page=listmenub" method="POST" class="d-flex justify-end">
                     <input type="hidden" value="<?php echo $out["kode_menu"];?>" name="kode" />
                     <input class="form-control" id="stok<?php echo $out["kode_menu"];?>" onchange="myfunction(this)" onkeyup="myfunction(this)" min="0" type="number" name="stok" value="<?php echo $out['stok'];?>" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
                     <?php
@@ -95,7 +95,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 <?php 
                 if ($out['keterangan']=="divalidasi") {
                     ?>
-                    <input type="submit" class="btn btn-warning" value='Ubah'>
+                    <input type="submit" class="btn btn-warning" value='Ubah' onclick="enabled()">
                     </form>
                     <?php
                 }
@@ -133,5 +133,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             $("#status"+kodemenu).val("tersedia").change();
         }
     }
+    function enabled() {
+        $('select').prop('disabled', false);
+    }
+    $('select').prop('disabled', true);
+
 </script>
 <?php include 'includes/footer.html' ?>
