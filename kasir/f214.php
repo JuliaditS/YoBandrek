@@ -1,17 +1,22 @@
-<?php include 'includes/header.html' ?>
-
-<?php include 'includes/kasir__navbar.html' ?>
-
+<?php
+include 'includes/header.html';
+include 'includes/kasir__navbar.php';
+if (!isset($_GET['page'])) {
+    header("Location: index.php");
+} ?>
 <div class="container mt-5">
     <div class="row">
         <div class="col-6 col-md-9">
             <h5>Laporan Keuangan</h5>
         </div>
         <div class="col-6 col-md-3">
-            <form class="d-flex justify-end">
-                <input class="form-control me-2" type="search" placeholder="Masukkan kata kunci..." aria-label="Search">
-                <button class="btn btn__search" type="submit">Search</button>
+            <form class="d-flex justify-end" action="" method="GET">
+                <input class="form-control me-2" type="text" name="dicari"  placeholder="Masukkan kata kunci..." aria-label="Search" value="<?php echo isset($_GET["dicari"]) ? $_GET["dicari"] : ""; ?>"
+                id="datepicker">
+                <input type="hidden" name="page" value="detaillaporan&bulantahun=<?php echo $_GET['bulantahun']; ?>">
+                <input class="btn btn-dark" type="submit" value="Cari">
             </form>
+        </div>
         </div>
     </div>
 </div>
@@ -19,7 +24,7 @@
 <div class="container mt-3">
     <table class="table table-striped table-hover table-bordered">
         <tr>
-            <th colspan="7">Januari</th>
+            <th colspan="7"><?php echo $_GET['bulantahun']; ?></th>
         </tr>
         <tr>
             <th class="col-md-1">No Pemesanan</th>
@@ -30,37 +35,51 @@
             <th class="col-md-2">Uang Kembalian</th>
             <th class="col-md-2">Tanggal Pembayaran</th>
         </tr>
+        <?php 
+        if (!isset($_GET["dicari"])) {
+                $tipe = "semua";
+                $cari = Null;
+            } else {
+                $tipe = "cari";
+                $cari = $_GET["dicari"];
+                if ($cari=="")
+                    $tipe = "semua";
+            }
+            $batas=10;
+            $data_pegawai = getListDetailLaporan(Null,Null,$tipe,$cari,$_GET['bulantahun']);
+            $halaman = (isset($_GET['halaman']))?(int)$_GET['halaman'] : 1;
+            $halaman_awal = ($halaman>1) ? ($halaman * $batas) - $batas : 0;
+            $previous = $halaman - 1;
+            $next = $halaman + 1;
+
+            $jumlah_data = count($data_pegawai);
+            $total_halaman = ceil($jumlah_data / $batas);
+
+            $databaris = getListDetailLaporan($halaman_awal,$batas,$tipe,$cari,$_GET['bulantahun']); // ambil seluruh baris data
+            $no = $halaman_awal+1;
+        foreach ($databaris as $out) { ?>
         <tr>
-            <td>126</td>
-            <td>Sidiq Sanjaya</td>
-            <td>Rp. 25.000</td>
-            <td>Rp. 2.500</td>
-            <td>Rp. 50.000</td>
-            <td>Rp. 22.500</td>
-            <td>07 Januari 2021, 19.00</td>
+            <td><?php echo $out['No Pemesanan']; ?></td>
+            <td><?php echo $out['Nama kasir']; ?></td>
+            <td><?php echo $out['Total Harga']; ?></td>
+            <td><?php echo $out['Pajak']; ?></td>
+            <td><?php echo $out['Uang Pembayaran']; ?></td>
+            <td><?php echo $out['Uang Kembalian']; ?></td>
+            <td><?php echo $out['Tanggal Pembayaran']; ?></td>
         </tr>
-        <tr>
-            <td>127</td>
-            <td>Ade Kurniawan</td>
-            <td>Rp. 32.000</td>
-            <td>Rp. 3.200</td>
-            <td>Rp. 50.000</td>
-            <td>Rp. 15.800</td>
-            <td>07 Januari 2021, 20.31</td>
-        </tr>
+        <?php $no++;} ?>
     </table>
     <nav aria-label="Page navigation example">
         <ul class="pagination justify-content-center">
-            <li class="page-item disabled">
-                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">
-                    < Previous</a> </li> <li class="page-item active"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item"><a class="page-link" href="#">4</a></li>
-            <li class="page-item"><a class="page-link" href="#">5</a></li>
-            <li class="page-item">
-                <a class="page-link" href="#">Next ></a>
-            </li>
-        </ul>
+              <li class="page-item <?php if($halaman==1) echo "disabled"; ?>"><a class="page-link" <?php if($halaman > 1){ echo "href='?page=detaillaporan&bulantahun=".$_GET['bulantahun']."&halaman=$previous&dicari=$cari'"; } ?>>Previous</a></li>
+              <?php 
+              for($x=1;$x<=$total_halaman;$x++){
+               ?>
+              <li class="page-item <?php if($halaman==$x) echo "active"; ?>"><a class="page-link" href="?page=detaillaporan&bulantahun=<?php echo $_GET['bulantahun']; ?>&halaman=<?php echo $x."&dicari=".$cari ?>"><?php echo $x; ?></a></li>
+              <?php 
+              }
+               ?>
+              <li class="page-item <?php if($halaman>=$total_halaman) echo "disabled"; ?>"><a  class="page-link" <?php if($halaman < $total_halaman) { echo "href='?page=detaillaporan&bulantahun=".$_GET['bulantahun']."&halaman=$next&dicari=$cari'"; } ?>>Next</a></li>
+            </ul>
     </nav>
 </div>
