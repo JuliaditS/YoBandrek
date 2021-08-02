@@ -1,11 +1,11 @@
 <?php
 error_reporting(0);
 include "../includes/functions.php";
-$meja = mysqli_query($conn, "SELECT * FROM `detail_meja` ORDER BY `detail_meja`.`no_meja` ASC");
+$meja = mysqli_query($conn, "SELECT * FROM `data_meja` ORDER BY `data_meja`.`no_meja` ASC");
 while($data = mysqli_fetch_array($meja)){
 ?>
         
-        <div class="col-md-4">
+        <div class="col-md-4 mt-3">
             <?php 
             if($data['status'] == 'tersedia'){ ?>
                 <a style="color: black; text-decoration: none" href="">

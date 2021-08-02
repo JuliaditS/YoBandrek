@@ -42,10 +42,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 </div>
                                 <div class="col-md-6">
                                     <!-- <button type="submit" class="btn btnnew__medium ">Tambah</button> -->
-                                    <button type="button" class="btn btnnew__medium" data-bs-toggle="modal" data-bs-target="#konfirmasi">
+                                    <button type="button" class="btn btnnew__medium" data-bs-toggle="modal" data-bs-target="#konfirmasitambah">
                                         Tambah
                                     </button>
-                                    <div class="modal fade" id="konfirmasi" tabindex="-1" aria-labelledby="konfirmasiModalLabel" aria-hidden="true">
+                                    <div class="modal fade" id="konfirmasitambah" tabindex="-1" aria-labelledby="konfirmasiModalLabel" aria-hidden="true">
                                         <div class="modal-dialog">
                                             <div class="modal-content">
                                                 <div class="modal-header">
