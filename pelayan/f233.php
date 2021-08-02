@@ -23,6 +23,7 @@
         setInterval(function() {
             loadmeja();
         }, 10000000);
+
         loadmeja();
 
         function loadmeja() {
