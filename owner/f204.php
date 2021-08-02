@@ -1,4 +1,5 @@
-<?php 
+<?php
+error_reporting(0); 
 include 'includes/header.html';
 include 'includes/owner__navbar.php';
 
@@ -17,6 +18,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         header("location: ?page=validasimenu");
     }
 }
+
 ?>
 
 <div class="container mt-5">

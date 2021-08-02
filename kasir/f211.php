@@ -62,7 +62,7 @@ if (!isset($_GET['page'])) {
                 <?php 
                 if ($out["Status Pesanan"]=="disajikan") {
                     ?>
-                    <a href="f212.php" class="btn btn-outline-success">Bayar</a>
+                    <a href="?page=pembayaran&bayar=<?php echo $out["No Pemesanan"];?>" class="btn btn-outline-success">Bayar</a>
                     <?php
                 }
                  ?>
