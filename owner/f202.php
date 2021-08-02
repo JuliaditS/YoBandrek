@@ -4,36 +4,48 @@ if (!isset($_GET['page'])) {
 } 
 include 'includes/header.html';
 include 'includes/owner__navbar.php'; 
-error_reporting(0);
+
+$pesan ="";
 if($_SERVER["REQUEST_METHOD"] == "POST"){ 
 
     $nama   = htmlspecialchars($_POST['nama']);
     $username   = htmlspecialchars($_POST['username']);
     $password   = htmlspecialchars($_POST['password']);
     $level  = htmlspecialchars($_POST['level']);
-    if(empty($nama)){
+    
+    if (empty($nama) && empty($username) && empty($password)) {
         $pesan = "<div class='alert alert-danger' role='alert'>
-                      NAMAAAAA WAJIB ANDA ISI HEYYYY!!
+                      Isi semua data terlebih dahulu!
+                    </div>";    
+    }elseif(empty($nama)){
+        $pesan = "<div class='alert alert-danger' role='alert'>
+                      Nama wajib diisi!
                     </div>";
-    }
-    elseif(empty($username)){
+    }elseif (!preg_match("/^[a-zA-Z ]*$/",$nama)){
+        $pesan = "<div class='alert alert-danger' role='alert'>
+                      Nama hanya boleh menggunakan Huruf!
+                    </div>";
+    }elseif(empty($username)){
         $pesan = "<div class='alert alert-danger' role='alert'>
                       Username wajib diisi!
                     </div>";
+    }elseif(!preg_match("/^[a-z0-9 ]*$/", $username)){
+        $pesan = "<div class='alert alert-danger' role='alert'>
+                      Username hanya boleh menggunakan huruf kecil dan angka!
+                    </div>";
     }elseif(empty($password)){
         $pesan = "<div class='alert alert-danger' role='alert'>
-                      Password wajib diisi
-                    </div>";
+                      Password wajib diisi!
+                    </div>";       
+    }elseif(strlen($password) < 8) {
+        $pesan = "<div class='alert alert-danger' role='alert'>
+                  Password harus 8 karakter!
+                </div>";
         
     }elseif(empty($_POST['level'])){
         $pesan = "<div class='alert alert-danger' role='alert'>
-                      Level wajib diisi
+                      Level wajib diisi!
                     </div>";
-    }elseif(strlen($password) < 8) {
-        $pesan = "<div class='alert alert-danger' role='alert'>
-                  Password harus 8 karakter
-                </div>";
-        
     }else{
         $md5 = md5($password);
         $masuk = mysqli_query($conn, "INSERT INTO `data_pegawai` (`id_Pegawai`, `username`, `password`, `nama`, `level`) VALUES (NULL, '$username', '$md5', '$nama', '$level')");
@@ -41,7 +53,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             $pesan = "<div class='alert alert-success' role='alert'>
                       Tambah data pegawai berhasil
                     </div>";
-                    Header("location: ?page=listpegawai&level=".$_POST['level']);
+                    header("Refresh:2; url=?page=listpegawai&level=".$_POST['level']);
+                    
         }else{
             $pesan = "<div class='alert alert-danger' role='alert'>
                       Tambah data pegawai gagal
