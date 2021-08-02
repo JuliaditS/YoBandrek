@@ -11,9 +11,9 @@ if (!isset($_GET['page'])) {
         </div>
         <div class="col-6 col-md-3">
             <form class="d-flex justify-end" action="" method="GET">
-                <input class="form-control me-2" type="text" name="dicari"  placeholder="Masukkan kata kunci..." aria-label="Search" value="<?php echo isset($_GET["dicari"]) ? $_GET["dicari"] : ""; ?>"
-                id="datepicker">
-                <input type="hidden" name="page" value="detaillaporan&bulantahun=<?php echo $_GET['bulantahun']; ?>">
+                <input class="form-control me-2" type="text" name="dicari" placeholder="Masukkan kata kunci..." aria-label="Search" value="<?php echo isset($_GET["dicari"]) ? $_GET["dicari"] : ""; ?>">
+                <input type="hidden" name="page" value="detaillaporan">
+                <input type="hidden" name="bulantahun" value="<?php echo $_GET['bulantahun']; ?>">
                 <input class="btn btn-dark" type="submit" value="Cari">
             </form>
         </div>
@@ -83,3 +83,27 @@ if (!isset($_GET['page'])) {
             </ul>
     </nav>
 </div>
+<script>
+    $( function() {
+    $( "#datepicker" ).datepicker({
+            changeMonth: true,
+            changeYear: true,
+            showButtonPanel: true,
+            dateFormat: 'MM yy',
+            onClose: function(dateText, inst) { 
+                var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
+            var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
+            $(this).val($.datepicker.formatDate('MM yy', new Date(year, month, 1)));
+            }
+    });
+    $("#datepicker").focus(function () {
+        $(".ui-datepicker-calendar").hide();
+        $("#ui-datepicker-div").position({
+            my: "center top",
+            at: "center bottom",
+            of: $(this)
+        });
+    });
+  } );
+</script>
+<?php include 'includes/footer.html' ?>
