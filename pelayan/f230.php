@@ -3,8 +3,8 @@ include 'includes/pelayan__navbar.php';
 if (!isset($_GET['page'])) {
     header("Location: index.php");
 } 
-$jmlkos = mysqli_num_rows(mysqli_query($conn,"SELECT * FROM detail_meja WHERE STATUS ='tersedia'"));
-$jmldig = mysqli_num_rows(mysqli_query($conn,"SELECT * FROM detail_meja WHERE STATUS ='tidak tersedia'"));
+$jmlkos = mysqli_num_rows(mysqli_query($conn,"SELECT * FROM data_meja WHERE STATUS ='tersedia'"));
+$jmldig = mysqli_num_rows(mysqli_query($conn,"SELECT * FROM data_meja WHERE STATUS ='tidak tersedia'"));
 $jmlpem = mysqli_num_rows(mysqli_query($conn,"SELECT * FROM data_pemesanan"));
 
 ?>

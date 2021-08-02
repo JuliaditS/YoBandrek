@@ -75,9 +75,9 @@ function getListValidasiMenu($halaman_awal=Null, $batas=Null, $tipe="semua", $ca
     $db = dbConnect();
     if ($db->connect_errno == 0) {
         if ($tipe=="semua")
-            $sql = "SELECT * FROM data_menu WHERE keterangan = 'blm divalidasi' ORDER BY nama ".(($halaman_awal==Null&&$batas==Null) ? "" : "limit $halaman_awal, $batas");
+            $sql = "SELECT * FROM data_menu ORDER BY keterangan asc ".(($halaman_awal==Null&&$batas==Null) ? "" : "limit $halaman_awal, $batas");
         else
-            $sql = "SELECT * FROM data_menu WHERE keterangan = 'blm divalidasi' AND (jenis like '%$cari%' OR nama like '%$cari%' OR harga like '%$cari%') ORDER BY nama ".(($halaman_awal==Null&&$batas==Null) ? "" : "limit $halaman_awal, $batas");  
+            $sql = "SELECT * FROM data_menu WHERE nama like '%$cari%' ORDER BY keterangan asc ".(($halaman_awal==Null&&$batas==Null) ? "" : "limit $halaman_awal, $batas");  
         $res = $db->query($sql);
         if ($res) {
             $data = $res->fetch_all(MYSQLI_ASSOC);
@@ -94,9 +94,42 @@ function getListLaporanKeuangan($halaman_awal=Null, $batas=Null, $tipe="semua", 
     $db = dbConnect();
     if ($db->connect_errno == 0) {
         if ($tipe=="semua")
-            $sql = "SELECT Concat(MONTH(data_pembayaran.tanggal_pembayaran),' ',YEAR(data_pembayaran.tanggal_pembayaran)) AS `Bulan Tahun`, COUNT(data_pembayaran.id_pembayaran) AS `Jumlah Transaksi`, SUM(`total_harga`) AS `Uang Masuk` FROM `data_pembayaran` WHERE data_pembayaran.validasi='divalidasi' GROUP BY `Bulan Tahun` ORDER BY `Bulan Tahun` DESC ".(($halaman_awal==Null&&$batas==Null) ? "" : "limit $halaman_awal, $batas");
+            $sql = "SELECT Concat(MONTHNAME(data_pembayaran.tanggal_pembayaran),' ',YEAR(data_pembayaran.tanggal_pembayaran)) AS `Bulan Tahun`, COUNT(data_pembayaran.id_pembayaran) AS `Jumlah Transaksi`, SUM(`total_harga`) AS `Uang Masuk` FROM `data_pembayaran` WHERE data_pembayaran.validasi='divalidasi' GROUP BY `Bulan Tahun` ORDER BY `Bulan Tahun` DESC ".(($halaman_awal==Null&&$batas==Null) ? "" : "limit $halaman_awal, $batas");
         else
-            $sql = "SELECT Concat(MONTH(data_pembayaran.tanggal_pembayaran),' ',YEAR(data_pembayaran.tanggal_pembayaran)) AS `Bulan Tahun`, COUNT(data_pembayaran.id_pembayaran) AS `Jumlah Transaksi`, SUM(`total_harga`) AS `Uang Masuk` FROM `data_pembayaran` WHERE data_pembayaran.validasi='divalidasi' GROUP BY `Bulan Tahun` HAVING `Bulan Tahun` LIKE '%$cari%' ORDER BY `Bulan Tahun` DESC ".(($halaman_awal==Null&&$batas==Null) ? "" : "limit $halaman_awal, $batas");  
+            $sql = "SELECT Concat(MONTHNAME(data_pembayaran.tanggal_pembayaran),' ',YEAR(data_pembayaran.tanggal_pembayaran)) AS `Bulan Tahun`, COUNT(data_pembayaran.id_pembayaran) AS `Jumlah Transaksi`, SUM(`total_harga`) AS `Uang Masuk` FROM `data_pembayaran` WHERE data_pembayaran.validasi='divalidasi' GROUP BY `Bulan Tahun` HAVING `Bulan Tahun` LIKE '%$cari%' ORDER BY `Bulan Tahun` DESC ".(($halaman_awal==Null&&$batas==Null) ? "" : "limit $halaman_awal, $batas");  
+        $res = $db->query($sql);
+        if ($res) {
+            $data = $res->fetch_all(MYSQLI_ASSOC);
+            $res->free();
+            return $data;
+        } else
+            return FALSE;
+    } else
+        return FALSE;
+}
+function getListPemesanan($halaman_awal=Null, $batas=Null, $tipe="semua", $cari=Null)
+{
+    $db = dbConnect();
+    if ($db->connect_errno == 0) {
+        if ($tipe=="semua")
+            $sql = "SELECT * FROM `data_pemesanan` ORDER BY status_pesanan asc ".(($halaman_awal==Null&&$batas==Null) ? "" : "limit $halaman_awal, $batas");
+        else
+            $sql = "SELECT * FROM `data_pemesanan` WHERE no_pemesanan LIKE '%$cari%' ORDER BY status_pesanan asc ".(($halaman_awal==Null&&$batas==Null) ? "" : "limit $halaman_awal, $batas");  
+        $res = $db->query($sql);
+        if ($res) {
+            $data = $res->fetch_all(MYSQLI_ASSOC);
+            $res->free();
+            return $data;
+        } else
+            return FALSE;
+    } else
+        return FALSE;
+}
+function getDetailPemesanan($halaman_awal=Null, $batas=Null, $tipe="semua", $cari=Null)
+{
+    $db = dbConnect();
+    if ($db->connect_errno == 0) {
+        $sql = "SELECT detail_pemesanan.kode_menu AS `Kode`, data_menu.nama AS `Nama Menu`, data_menu.jenis AS `Jenis`, detail_pemesanan.jumlah AS `Jumlah` FROM `detail_pemesanan` JOIN data_menu ON detail_pemesanan.kode_menu=data_menu.kode_menu WHERE detail_pemesanan.no_pemesanan = $cari ORDER BY detail_pemesanan.kode_menu ASC ".(($halaman_awal==Null&&$batas==Null) ? "" : "limit $halaman_awal, $batas");
         $res = $db->query($sql);
         if ($res) {
             $data = $res->fetch_all(MYSQLI_ASSOC);

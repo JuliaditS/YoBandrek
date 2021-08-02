@@ -54,7 +54,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                     $tipe = "semua";
             }
             $batas=10;
-            $data_pegawai = getListMenu(Null,Null,$tipe,$cari);
+            $data_pegawai = getListValidasiMenu(Null,Null,$tipe,$cari);
             $halaman = (isset($_GET['halaman']))?(int)$_GET['halaman'] : 1;
             $halaman_awal = ($halaman>1) ? ($halaman * $batas) - $batas : 0;
             $previous = $halaman - 1;
@@ -63,7 +63,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             $jumlah_data = count($data_pegawai);
             $total_halaman = ceil($jumlah_data / $batas);
 
-            $databaris = getListMenu($halaman_awal,$batas,$tipe,$cari); // ambil seluruh baris data
+            $databaris = getListValidasiMenu($halaman_awal,$batas,$tipe,$cari); // ambil seluruh baris data
             $no = $halaman_awal+1;
         foreach ($databaris as $out) { ?>
         <tr>
@@ -80,7 +80,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             </td>
             <td>
                 <input type="submit" name="status" value="<?php echo $out['keterangan']=="divalidasi"?"Update":"Validasi"; ?>" class="btn btn-success">
-                <a href="?page=hapusmenu&onmenu=<?php echo $out["kode_menu"];?>" class="btn btn-danger">Delete</a>
+                <?php 
+                    if ($out['keterangan']=="blm divalidasi") {
+                        ?>
+                            <a href="?page=hapusmenu&onmenu=<?php echo $out['kode_menu'];?>" class="btn btn-danger">Delete</a>
+                        <?php 
+                    }
+                 ?>
                 </form>
             </td>
         </tr><?php $no++;} ?>
