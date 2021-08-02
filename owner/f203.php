@@ -1,38 +1,36 @@
-<?php include 'includes/header.html' ?>
-<?php include 'includes/owner__navbar.php' ?>
-<?php include 'includes/functions.php' ?>
-<?php 
+<?php
+if (!isset($_GET['page'])) {
+    header("Location: index.php");
+} 
+include 'includes/header.html';
+include 'includes/owner__navbar.php'; 
 
-    //BELUM ADA PANGGIL KONEKSI 
+$onuser = $_GET['onpegawai'];
+$f = mysqli_query($conn, "select * from data_pegawai where id_pegawai='$onuser'");
+$ff = mysqli_fetch_array($f);
 
-    $pesan = "";
-    $id_Pegawai = $_GET["id_Pegawai"];
-    $ambil = mysqli_query($koneksi,"SELECT * FROM data_pegawai WHERE id_Pegawai = $id_Pegawai");
-    $data = mysqli_fetch_array($ambil);
+if($_SERVER["REQUEST_METHOD"] == "POST"){ 
 
-    $id_Pegawai = $_POST['id_Pegawai'];
-    $nama = $_POST['nama'];
-    $username = $_POST['username'];
-    $level = $_POST['level'];
-    if(isset($_POST['submit'])){
-        $query = "UPDATE data_pegawai SET 
-                    nama = '$nama',
-                    username = '$username',
-                    level = '$level'
-                    WHERE id_Pegawai = $id_Pegawai ";
-        $update = mysqli_query($koneksi, $query);
-        if($update){
-            $pesan = "<div class='alert alert-success' role='alert'>
-                          Uabah data pegawai berhasil
-                        </div>";
-        }else{
-            $pesan = "<div class='alert alert-success' role='alert'>
-                          Ubah data pegawai gagal
-                        </div>";
-        }
+    if($_POST['namapegawai']!=$ff['nama']){
+        $nama = $_POST['namapegawai'];
+        mysqli_query($conn, "UPDATE `data_pegawai` SET `nama` = '$nama' WHERE `data_pegawai`.`id_Pegawai` = $onuser");
     }
- ?>
-
+    if($_POST['username']!=$ff['username']){
+        $user = $_POST['username'];
+        mysqli_query($conn, "UPDATE `data_pegawai` SET `username` = '$user' WHERE `data_pegawai`.`id_Pegawai` = $onuser");
+    }
+    if(md5($_POST['password'])!=$ff['password']){
+        $pass = md5($_POST['password']);
+        mysqli_query($conn, "UPDATE `data_pegawai` SET `password` = '$pass' WHERE `data_pegawai`.`id_Pegawai` = $onuser");
+    }
+    if($_POST['level']!=$ff['level']){
+        $level= $_POST['level'];
+        mysqli_query($conn, "UPDATE `data_pegawai` SET `level` = '$level' WHERE `data_pegawai`.`id_Pegawai` = $onuser");
+    }
+    
+    Header("location: ?page=listpegawai&level=".$_POST['level']);
+}
+?>
 <section id="cover">
     <div id="cover-caption">
         <div id="container" class="container mt-3">
@@ -40,15 +38,13 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="info-form">
-                        <form action="" method="POST" class="form-inline justify-content-center">
-                            <?= $pesan; ?>
+                        <form action="?page=editpegawai&onpegawai=<?php echo $onuser;?>" method="POST" class="form-inline justify-content-center">
                             <div class="row g-3 align-items-center mb-3">
                                 <div class="col-md-3">
                                     <label class="col-form-label">Nama</label>
                                 </div>
                                 <div class="col-md-6">
-                                    <input type="hidden" name="id_Pegawai" value="<?= $data['id_Pegawai'] ?>">
-                                    <input type="text" name="nama" class="form-control" value="<?= $data['nama']; ?>">
+                                    <input type="text" class="form-control" name="namapegawai" value="<?php echo $ff['nama'];?>">
                                 </div>
                             </div>
                             <div class="row g-3 align-items-center mb-3">
@@ -56,7 +52,7 @@
                                     <label class="col-form-label">Username</label>
                                 </div>
                                 <div class="col-md-6">
-                                    <input type="text" name="username" class="form-control" value="<?= $data['username'] ?>">
+                                    <input type="text" class="form-control" name="username" value="<?php echo $ff['username'];?>">
                                 </div>
                             </div>
                             <div class="row g-3 align-items-center mb-3">
@@ -64,7 +60,7 @@
                                     <label class="col-form-label">Password</label>
                                 </div>
                                 <div class="col-md-6">
-                                    <input type="text" readonly class="form-control" value="<?= $data['password'] ?>">
+                                    <input type="password" name="password" class="form-control">
                                 </div>
                             </div>
                             <div class="row g-3 align-items-center mb-3">
@@ -72,19 +68,12 @@
                                     <label class="col-form-label">Level</label>
                                 </div>
                                 <div class="col-md-6">
-                                    <select class="form-select" name="level" aria-label="Default select example">
-                                        <option <?php if ($data['level'] == 'owner') {
-                                                echo 'selected';
-                                            } ?>>Owner</option>
-                                        <option <?php if ($data['level'] == 'pelayan') {
-                                                        echo 'selected';
-                                                    } ?>>Pelayan</option>
-                                        <option <?php if ($data['level'] == 'barista') {
-                                                        echo 'selected';
-                                                    } ?>>Barista</option>
-                                        <option <?php if ($data['level'] == 'kasir') {
-                                                        echo 'selected';
-                                                    } ?> >Kasir</option>
+                                    <select class="form-select" aria-label="Default select example" name="level">
+                                        <option selected>Pilih level</option>
+                                        <option <?php if($ff['level']=='owner'){echo "selected";} ?> value="owner">Owner</option>
+                                        <option <?php if($ff['level']=='pelayan'){echo "selected";} ?> value="pelayan">Pelayan</option>
+                                        <option <?php if($ff['level']=='barista'){echo "selected";} ?> value="barista">Barista</option>
+                                        <option <?php if($ff['level']=='kasir'){echo "selected";} ?> value="kasir">Kasir</option>
                                     </select>
                                 </div>
                             </div>
@@ -93,7 +82,7 @@
                                     <label class="col-form-label"></label>
                                 </div>
                                 <div class="col-md-6">
-                                    <button type="submit" name="submit" class="btn btnnew__medium ">Submit</button>
+                                    <button type="submit" class="btn btnnew__medium ">Submit</button>
                                 </div>
                             </div>
 
@@ -105,4 +94,4 @@
     </div>
 </section>
 
-<?php include '../includes/footer.html' ?>
+<?php include 'includes/footer.html' ?>
