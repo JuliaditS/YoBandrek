@@ -1,5 +1,12 @@
 <?php include 'includes/header.html';
 include 'includes/barista__navbar.php';
+if($_SERVER["REQUEST_METHOD"] == "POST"){  
+ $status = $_POST['status_pesanan'];
+ $nopems = $_POST['nopems'];
+ mysqli_query($conn, "UPDATE `data_pemesanan` SET `status_pesanan` = '$status' WHERE `data_pemesanan`.`no_pemesanan` = $nopems");
+ header("location: ?page=listpemesanan");
+
+}
 ?>
 <div class="container mt-5">
     <div class="row">
@@ -85,12 +92,13 @@ include 'includes/barista__navbar.php';
                                                 </tbody>
                                             </table>
                                             <form method="POST" action="?page=listpemesanan">
+                                            <input type="hidden" value="<?php echo $out["no_pemesanan"];?>" name="nopems" />
                                                 <div class="row">
                                                     <div class=" col-md-6">
-                                                        <input type="radio" name="status_pesanan" value="diproses" <?php echo $out['status_pesanan']=="diproses"?'checked':''; ?> checked> Diproses
+                                                        <input class="form-check-input" type="radio" name="status_pesanan" value="diproses" <?php echo $out['status_pesanan']=="diproses"?'checked':''; ?> checked> Diproses
                                                     </div>
                                                     <div class=" col-md-6">
-                                                        <input type="radio" name="status_pesanan" value="disajikan" <?php echo $out['status_pesanan']=="disajikan"?'checked':''; ?>> Disajikan
+                                                        <input class="form-check-input" type="radio" name="status_pesanan" value="disajikan" <?php echo $out['status_pesanan']=="disajikan"?'checked':''; ?>> Disajikan
                                                     </div>
                                                 </div>
                                         </div>

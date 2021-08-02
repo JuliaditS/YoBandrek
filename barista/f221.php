@@ -1,5 +1,12 @@
 <?php include 'includes/header.html';
 include 'includes/barista__navbar.php';
+if($_SERVER["REQUEST_METHOD"] == "POST"){  
+    $status = $_POST['status'];
+    $stok   = $_POST['stok'];
+    $kode   = $_POST['kode'];
+    mysqli_query($conn, "UPDATE `data_menu` SET `status` = '$status', `stok` = '$stok' WHERE `data_menu`.`kode_menu` = '$kode'");
+    header("location: ?page=listmenub");
+}
 ?>
 
 <div class="container">
@@ -53,6 +60,7 @@ include 'includes/barista__navbar.php';
             $databaris = getListValidasiMenu($halaman_awal,$batas,$tipe,$cari); // ambil seluruh baris data
             $no = $halaman_awal+1;
         foreach ($databaris as $out) { ?>
+        
         <tr>
             <td><?php echo $out["kode_menu"];?></td>
             <td><?php echo $out['nama'];?></td>
@@ -60,7 +68,8 @@ include 'includes/barista__navbar.php';
                 <?php 
                 if ($out['keterangan']=="divalidasi") {
                     ?>
-                    <form class="d-flex justify-end">
+                    <form action="?page=listmenub" method="POST" class="d-flex justify-end" >
+                    <input type="hidden" value="<?php echo $out["kode_menu"];?>" name="kode" />
                     <input class="form-control" id="stok<?php echo $out["kode_menu"];?>" onchange="myfunction(this)" onkeyup="myfunction(this)" min="0" type="number" name="stok" value="<?php echo $out['stok'];?>" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
                     <?php
                 }
@@ -74,7 +83,7 @@ include 'includes/barista__navbar.php';
                 <?php 
                 if ($out['keterangan']=="divalidasi") {
                     ?>
-                    <select name="status" class="form-control" id="status<?php echo $out["kode_menu"];?>" disabled="">
+                    <select name="status" class="form-control" id="status<?php echo $out["kode_menu"];?>" readonly>
                         <option value="tidak tersedia" <?php echo $out['status']=='tidak tersedia'?"selected":""; ?>>tidak tersedia</option>
                         <option value="tersedia" <?php echo $out['status']=='tersedia'?"selected":""; ?>>tersedia</option>
                     </select>
@@ -94,6 +103,7 @@ include 'includes/barista__navbar.php';
                 
             </td>
         </tr>
+        
         <?php $no++;} ?>
     </table>
     <nav aria-label="Page navigation example">
