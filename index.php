@@ -74,7 +74,7 @@ if (isset($_GET['page'])) {
     }elseif ($page == 'hapusmeja') {
         require 'pelayan/hapusmeja.php';
     } elseif ($page == 'tambahpemesanan') {
-        require 'pelayan/f326.php';
+        require 'pelayan/f236.php';
     } elseif ($page == 'editpemesanan') {
         require 'pelayan/f237.php';
     
