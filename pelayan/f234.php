@@ -22,7 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     <label class="col-form-label">Nomor Meja</label>
                                 </div>
                                 <div class="col-md-6">
-                                    <input type="number" id="nomeja" onkeyup=nomor(this) name="nomeja" class="form-control"></input>
+                                    <input type="number" id="nomeja" onkeyup=nomor(this) name="nomeja" class="form-control" min="1" max="100"></input>
                                     <span id="cek"></span>
                                 </div>
                             </div>
@@ -31,7 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     <label class="col-form-label">Jumlah Kursi</label>
                                 </div>
                                 <div class="col-md-6">
-                                    <input type="number" name="jukur" class="form-control">
+                                    <input type="number" name="jukur" class="form-control" min="1" max="20">
                                 </div>
                             </div>
 
@@ -41,7 +41,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     <label class="col-form-label"></label>
                                 </div>
                                 <div class="col-md-6">
-                                    <button type="submit" class="btn btnnew__medium ">Tambah</button>
+                                    <!-- <button type="submit" class="btn btnnew__medium ">Tambah</button> -->
+                                    <button type="button" class="btn btnnew__medium" data-bs-toggle="modal" data-bs-target="#konfirmasi">
+                                        Tambah
+                                    </button>
+                                    <div class="modal fade" id="konfirmasi" tabindex="-1" aria-labelledby="konfirmasiModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="konfirmasiModalLabel">Sukses</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    Data berhasil ditambahkan
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="submit" class="btn btn-primary">Oke</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </form>
