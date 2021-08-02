@@ -145,9 +145,9 @@ function getlistPembayaran($halaman_awal=Null, $batas=Null, $tipe="semua", $cari
     $db = dbConnect();
     if ($db->connect_errno == 0) {
         if ($tipe=="semua")
-            $sql = "SELECT data_pemesanan.no_pemesanan AS `No Pemesanan`, data_pemesanan.status_pesanan AS `Status Pesanan`, SUM(data_menu.harga*detail_pemesanan.jumlah) AS `Total Harga` FROM data_pemesanan JOIN detail_pemesanan ON data_pemesanan.no_pemesanan=detail_pemesanan.no_pemesanan JOIN data_menu ON data_menu.kode_menu=detail_pemesanan.kode_menu GROUP BY `No Pemesanan` ORDER by `Status Pesanan` desc ".(($halaman_awal==Null&&$batas==Null) ? "" : "limit $halaman_awal, $batas");
+            $sql = "SELECT data_pemesanan.no_pemesanan AS `No Pemesanan`, data_pemesanan.status_pesanan AS `Status Pesanan`, SUM(data_menu.harga*detail_pemesanan.jumlah) AS `Total Harga` FROM data_pemesanan JOIN detail_pemesanan ON data_pemesanan.no_pemesanan=detail_pemesanan.no_pemesanan JOIN data_menu ON data_menu.kode_menu=detail_pemesanan.kode_menu WHERE data_pemesanan.no_pemesanan NOT IN (SELECT no_pemesanan FROM data_pembayaran) GROUP BY `No Pemesanan` ORDER by `Status Pesanan` desc ".(($halaman_awal==Null&&$batas==Null) ? "" : "limit $halaman_awal, $batas");
         else
-            $sql = "SELECT data_pemesanan.no_pemesanan AS `No Pemesanan`, data_pemesanan.status_pesanan AS `Status Pesanan`, SUM(data_menu.harga*detail_pemesanan.jumlah) AS `Total Harga` FROM data_pemesanan JOIN detail_pemesanan ON data_pemesanan.no_pemesanan=detail_pemesanan.no_pemesanan JOIN data_menu ON data_menu.kode_menu=detail_pemesanan.kode_menu GROUP BY `No Pemesanan` HAVING `No Pemesanan` LIKE '%$cari%' ORDER by `Status Pesanan` desc ".(($halaman_awal==Null&&$batas==Null) ? "" : "limit $halaman_awal, $batas");  
+            $sql = "SELECT data_pemesanan.no_pemesanan AS `No Pemesanan`, data_pemesanan.status_pesanan AS `Status Pesanan`, SUM(data_menu.harga*detail_pemesanan.jumlah) AS `Total Harga` FROM data_pemesanan JOIN detail_pemesanan ON data_pemesanan.no_pemesanan=detail_pemesanan.no_pemesanan JOIN data_menu ON data_menu.kode_menu=detail_pemesanan.kode_menu WHERE data_pemesanan.no_pemesanan NOT IN (SELECT no_pemesanan FROM data_pembayaran) GROUP BY `No Pemesanan` HAVING `No Pemesanan` LIKE '%$cari%' ORDER by `Status Pesanan` desc ".(($halaman_awal==Null&&$batas==Null) ? "" : "limit $halaman_awal, $batas");  
         $res = $db->query($sql);
         if ($res) {
             $data = $res->fetch_all(MYSQLI_ASSOC);
@@ -164,9 +164,9 @@ function getListValidasiLaporan($halaman_awal=Null, $batas=Null, $tipe="semua", 
     $db = dbConnect();
     if ($db->connect_errno == 0) {
         if ($tipe=="semua")
-            $sql = "SELECT Concat(MONTHNAME(data_pembayaran.tanggal_pembayaran), ' ', YEAR(data_pembayaran.tanggal_pembayaran)) AS `Bulan Tahun` FROM `data_pembayaran` GROUP BY `Bulan Tahun` ORDER BY `Bulan Tahun` asc ".(($halaman_awal==Null&&$batas==Null) ? "" : "limit $halaman_awal, $batas");
+            $sql = "SELECT Concat(MONTHNAME(data_pembayaran.tanggal_pembayaran), ' ', YEAR(data_pembayaran.tanggal_pembayaran)) AS `Bulan Tahun` FROM `data_pembayaran` WHERE data_pembayaran.validasi = 'blm divalidasi' GROUP BY `Bulan Tahun` ORDER BY `Bulan Tahun` asc ".(($halaman_awal==Null&&$batas==Null) ? "" : "limit $halaman_awal, $batas");
         else
-            $sql = "SELECT Concat(MONTHNAME(data_pembayaran.tanggal_pembayaran), ' ', YEAR(data_pembayaran.tanggal_pembayaran)) AS `Bulan Tahun` FROM `data_pembayaran` GROUP BY `Bulan Tahun` HAVING `Bulan Tahun` LIKE '%$cari%' ORDER BY `Bulan Tahun` asc ".(($halaman_awal==Null&&$batas==Null) ? "" : "limit $halaman_awal, $batas");  
+            $sql = "SELECT Concat(MONTHNAME(data_pembayaran.tanggal_pembayaran), ' ', YEAR(data_pembayaran.tanggal_pembayaran)) AS `Bulan Tahun` FROM `data_pembayaran` WHERE data_pembayaran.validasi = 'blm divalidasi' GROUP BY `Bulan Tahun` HAVING `Bulan Tahun` LIKE '%$cari%' ORDER BY `Bulan Tahun` asc ".(($halaman_awal==Null&&$batas==Null) ? "" : "limit $halaman_awal, $batas");  
         $res = $db->query($sql);
         if ($res) {
             $data = $res->fetch_all(MYSQLI_ASSOC);

@@ -49,7 +49,7 @@ header("location: ?page=laporan");
                     $tipe = "semua";
             }
             $batas=10;
-            $data_pegawai = getListLaporanKeuangan(Null,Null,$tipe,$cari);
+            $data_pegawai = getListValidasiLaporan(Null,Null,$tipe,$cari);
             $halaman = (isset($_GET['halaman']))?(int)$_GET['halaman'] : 1;
             $halaman_awal = ($halaman>1) ? ($halaman * $batas) - $batas : 0;
             $previous = $halaman - 1;
@@ -58,7 +58,7 @@ header("location: ?page=laporan");
             $jumlah_data = count($data_pegawai);
             $total_halaman = ceil($jumlah_data / $batas);
 
-            $databaris = getListLaporanKeuangan($halaman_awal,$batas,$tipe,$cari); // ambil seluruh baris data
+            $databaris = getListValidasiLaporan($halaman_awal,$batas,$tipe,$cari); // ambil seluruh baris data
             $no = $halaman_awal+1;
         foreach ($databaris as $out) { ?>
         <tr>

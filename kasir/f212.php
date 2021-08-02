@@ -78,7 +78,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                                     <label class="col-form-label">Total Bayar</label>
                                 </div>
                                 <div class="col-md-6">
-                                    <input type="text" name="totalbayar" value="<?php echo $totalbayar;?>" class="form-control" readonly>
+                                    <input type="text" id="totalbayar" name="totalbayar" value="<?php echo $totalbayar;?>" class="form-control" readonly>
                                 </div>
                             </div>
                             <div class="row g-3 align-items-center mb-3">
@@ -94,7 +94,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                                     <label class="col-form-label">Uang Kembalian</label>
                                 </div>
                                 <div class="col-md-6">
-                                    <input type="text" placeholder="Rp." name="kembalian" id="uangkembali" class="form-control">
+                                    <input type="text" placeholder="Rp." name="kembalian" id="uangkembali" class="form-control" readonly="">
                                 </div>
                             </div>
                             <div class="row g-3 align-items-center mb-3">
@@ -113,5 +113,19 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         </div>
     </div>
 </section>
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdn.rawgit.com/igorescobar/jQuery-Mask-Plugin/1ef022ab/dist/jquery.mask.min.js"></script>
+<script>
+    setInterval(function(){
+            var uangbayar = (document.getElementById("uangbayar").value * 1);
+            var totalharga = document.getElementById("totalbayar").value;
+            if (uangbayar < totalharga) {
+                document.getElementById("uangkembali").value = "Uang pembayaran kurang";
+            } else {
+                document.getElementById("uangkembali").value = uangbayar - totalharga;
+            }
+    }, 10);
+    
+    
+</script>
 <?php include 'includes/footer.html' ?>
