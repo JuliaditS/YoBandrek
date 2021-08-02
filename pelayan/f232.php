@@ -27,9 +27,10 @@ $fetch = mysqli_query($conn, "SELECT `data_meja`.* FROM `data_meja` limit $halam
         </div>
 
         <div class="col-6 col-md-3">
-            <form action="?page=listmeja" method="POST" class="d-flex justify-end">
-                <input class="form-control me-2" name="cari" type="search" placeholder="Masukkan kata kunci..." aria-label="Search">
-                <button class="btn btn__search" type="submit">Search</button>
+            <form class="d-flex justify-end" action="" method="GET">
+                <input class="form-control me-2" type="text" name="dicari" placeholder="Masukkan kata kunci..." aria-label="Search" value="<?php echo isset($_GET["dicari"]) ? $_GET["dicari"] : ""; ?>">
+                <input type="hidden" name="page" value="listmeja">
+                <input class="btn btn-dark" type="submit" value="Cari">
             </form>
         </div>
     </div>
@@ -43,11 +44,29 @@ $fetch = mysqli_query($conn, "SELECT `data_meja`.* FROM `data_meja` limit $halam
             <th class="col-md-2">Jumlah Kursi</th>
             <th class="col-md-1">Aksi</th>
         </tr>
-        <?php
-        $no = 0; 
-        while($data = mysqli_fetch_array($fetch)){ 
-            $no = $no + 1;
-        ?>
+        <?php 
+        if (!isset($_GET["dicari"])) {
+                $tipe = "semua";
+                $cari = Null;
+            } else {
+                $tipe = "cari";
+                $cari = $_GET["dicari"];
+                if ($cari=="")
+                    $tipe = "semua";
+            }
+            $batas=10;
+            $data_pegawai = getListMeja(Null,Null,$tipe,$cari);
+            $halaman = (isset($_GET['halaman']))?(int)$_GET['halaman'] : 1;
+            $halaman_awal = ($halaman>1) ? ($halaman * $batas) - $batas : 0;
+            $previous = $halaman - 1;
+            $next = $halaman + 1;
+
+            $jumlah_data = count($data_pegawai);
+            $total_halaman = ceil($jumlah_data / $batas);
+
+            $databaris = getListMeja($halaman_awal,$batas,$tipe,$cari); // ambil seluruh baris data
+            $no = $halaman_awal+1;
+        foreach ($databaris as $data) { ?>
         <tr>
             <td><?php echo $no; ?></td>
             <td><?php echo $data['no_meja'];?></td>
@@ -57,23 +76,21 @@ $fetch = mysqli_query($conn, "SELECT `data_meja`.* FROM `data_meja` limit $halam
                 <a href="?page=hapusmeja&onmeja=<?php echo $data['no_meja'];?>" class="btn btn-danger"><i class='bx bx-trash'></i></a>
             </td>
         </tr>
-        <?php } ?>
+         <?php $no++;} ?>
+
     </table>
     <nav aria-label="Page navigation example">
         <ul class="pagination justify-content-center">
-            <li class="page-item disabled">
-            <a class="page-link" <?php if($halaman > 1){ echo "href='?page=listmeja&halaman=$Previous'"; } ?>>Previous</a></li> 
-            <?php 
-				for($x=1;$x<=$total_halaman;$x++){
-					?> 
-					<li class="page-item"><a class="page-link" href="?page=listmeja&halaman=<?php echo $x ?>"><?php echo $x; ?></a></li>
-					<?php
-				}
-				?>				
-				<li class="page-item">
-					<a  class="page-link" <?php if($halaman < $total_halaman) { echo "href='?page=listmeja&halaman=$next'"; } ?>>Next</a>
-				</li>
-        </ul>
+              <li class="page-item <?php if($halaman==1) echo "disabled"; ?>"><a class="page-link" <?php if($halaman > 1){ echo "href='?page=listmeja&halaman=$previous&dicari=$cari'"; } ?>>Previous</a></li>
+              <?php 
+              for($x=1;$x<=$total_halaman;$x++){
+               ?>
+              <li class="page-item <?php if($halaman==$x) echo "active"; ?>"><a class="page-link" href="?page=listmeja&halaman=<?php echo $x."&dicari=".$cari ?>"><?php echo $x; ?></a></li>
+              <?php 
+              }
+               ?>
+              <li class="page-item <?php if($halaman>=$total_halaman) echo "disabled"; ?>"><a  class="page-link" <?php if($halaman < $total_halaman) { echo "href='?page=listmeja&halaman=$next&dicari=$cari'"; } ?>>Next</a></li>
+            </ul>
     </nav>
 </div>
 <?php include 'includes/footer.html' ?>
