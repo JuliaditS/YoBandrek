@@ -86,7 +86,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                                     <label class="col-form-label">Uang Pembayaran</label>
                                 </div>
                                 <div class="col-md-6">
-                                    <input type="text" id="uangbayar" name="bayar" onkeyup="pembayaran(this)" placeholder="Rp." class="form-control" required>
+                                    <input type="text" id="uangbayar" name="bayar" onkeypress="return event.charCode >= 48 && event.charCode <= 57" onkeyup="pembayaran(this)" placeholder="Rp." class="form-control" required>
                                 </div>
                             </div>
                             <div class="row g-3 align-items-center mb-3">

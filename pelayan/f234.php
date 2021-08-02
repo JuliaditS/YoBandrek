@@ -22,7 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     <label class="col-form-label">Nomor Meja</label>
                                 </div>
                                 <div class="col-md-6">
-                                    <input type="number" id="nomeja" onkeyup=nomor(this) name="nomeja" class="form-control" min="1" max="100"></input>
+                                    <input type="number" id="nomeja" onkeyup="nomor(this)" onkeypress="return event.charCode >= 48 && event.charCode <= 57" name="nomeja" class="form-control" min="1" max="100"></input>
                                     <span id="cek"></span>
                                 </div>
                             </div>
@@ -31,7 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     <label class="col-form-label">Jumlah Kursi</label>
                                 </div>
                                 <div class="col-md-6">
-                                    <input type="number" name="jukur" class="form-control" min="1" max="20">
+                                    <input type="number" name="jukur" class="form-control" min="1" max="20" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
                                 </div>
                             </div>
 
