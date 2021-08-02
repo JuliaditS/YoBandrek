@@ -29,7 +29,7 @@ if (isset($_GET['page'])) {
     } elseif ($page == 'validasimenu') {
         require 'owner/f204.php';
     }elseif ($page == 'hapusmenu') {
-        require 'owner/hapusdatamenu.php';
+        require 'owner/hapusmenu.php';
     } elseif ($page == 'laporankeuangan') {
         require 'owner/f205.php';
     

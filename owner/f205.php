@@ -1,7 +1,32 @@
-<?php include 'includes/header.html' ?>
+<?php 
+include 'includes/header.html';
+include 'includes/owner__navbar.php';
 
-<?php include 'includes/owner__navbar.php' ?>
 
+?>
+<script>
+    $( function() {
+    $( "#datepicker" ).datepicker({
+            changeMonth: true,
+            changeYear: true,
+            showButtonPanel: true,
+            dateFormat: 'MM yy',
+            onClose: function(dateText, inst) { 
+                var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
+            var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
+            $(this).val($.datepicker.formatDate('MM yy', new Date(year, month, 1)));
+            }
+    });
+    $("#datepicker").focus(function () {
+        $(".ui-datepicker-calendar").hide();
+        $("#ui-datepicker-div").position({
+            my: "center top",
+            at: "center bottom",
+            of: $(this)
+        });
+    });
+  } );
+</script>
 <div class="container mt-5">
     <div class="row">
         <div class="col-6 col-md-9">
@@ -9,7 +34,8 @@
         </div>
         <div class="col-6 col-md-3">
             <form class="d-flex justify-end" action="" method="GET">
-                <input class="form-control me-2" type="text" name="dicari" placeholder="Masukkan kata kunci..." aria-label="Search" value="<?php echo isset($_GET["dicari"]) ? $_GET["dicari"] : ""; ?>">
+                <input class="form-control me-2" type="text" name="dicari"  placeholder="Masukkan kata kunci..." aria-label="Search" value="<?php echo isset($_GET["dicari"]) ? $_GET["dicari"] : ""; ?>"
+                id="datepicker">
                 <input type="hidden" name="page" value="laporankeuangan">
                 <input class="btn btn-dark" type="submit" value="Cari">
             </form>

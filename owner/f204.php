@@ -1,6 +1,23 @@
-<?php include 'includes/header.html' ?>
+<?php 
+include 'includes/header.html';
+include 'includes/owner__navbar.php';
 
-<?php include 'includes/owner__navbar.php' ?>
+if($_SERVER["REQUEST_METHOD"] == "POST"){  
+    if($_POST['status']=='Validasi'){
+        $kode  = $_POST['kode'];
+        $harga = $_POST['harga'];
+        $diskon= $_POST['diskon'];
+        mysqli_query($conn, "UPDATE `data_menu` SET `harga` = '$harga', `keterangan` = 'divalidasi', `diskon` = '$diskon' WHERE `data_menu`.`kode_menu` = '$kode'");
+        header("location: ?page=validasimenu");
+    }else{
+        $kode  = $_POST['kode'];
+        $harga = $_POST['harga'];
+        $diskon= $_POST['diskon'];
+        mysqli_query($conn, "UPDATE `data_menu` SET `harga` = '$harga', `diskon` = '$diskon' WHERE `data_menu`.`kode_menu` = '$kode'");
+        header("location: ?page=validasimenu");
+    }
+}
+?>
 
 <div class="container mt-5">
     <div class="row">
@@ -52,8 +69,9 @@
         <tr>
             <td><?php echo $out["kode_menu"];?></td>
             <td><?php echo $out['nama'];?></td>
-            <td>
+            <td>                
                 <form class="d-flex justify-end" method="POST">
+                <input type="hidden" value="<?php echo $out["kode_menu"];?>" name="kode" />
                     <input class="form-control" name="harga" value="<?php echo $out['harga'];?>">
             </td>
             <td>
@@ -61,8 +79,8 @@
                 
             </td>
             <td>
-                <input type="submit" value="<?php echo $out['keterangan']=="divalidasi"?"Update":"Validasi"; ?>" class="btn btn-success">
-                <a href="" class="btn btn-danger">Delete</a>
+                <input type="submit" name="status" value="<?php echo $out['keterangan']=="divalidasi"?"Update":"Validasi"; ?>" class="btn btn-success">
+                <a href="?page=hapusmenu&onmenu=<?php echo $out["kode_menu"];?>" class="btn btn-danger">Delete</a>
                 </form>
             </td>
         </tr><?php $no++;} ?>
