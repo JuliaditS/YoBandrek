@@ -196,4 +196,11 @@ function getListDetailLaporan($halaman_awal=Null, $batas=Null, $tipe="semua", $c
     } else
         return FALSE;
 }
+
+function rupiah($angka){
+    
+    $hasil_rupiah = "Rp " . number_format($angka,0,',','.');
+    return $hasil_rupiah;
+ 
+}
 ?>

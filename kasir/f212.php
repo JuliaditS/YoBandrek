@@ -16,18 +16,31 @@ while($out = mysqli_fetch_array($data)){
     $ttlpem = $ttlpem + ($out['harga'] * $out['jumlah']);
     $diskon = $diskon + (($out['harga'] * $out['jumlah'])*(($out['diskon'])/100));
 }
+$pesan ="";
 $pajak = ($ttlpem-$diskon) * (10/100);
 $totalbayar  = $ttlpem - $diskon + $pajak ;
 if($_SERVER["REQUEST_METHOD"] == "POST"){ 
-    $p_no = $_POST['nopem'];
-    $p_totalpem = $_POST['totalpemesanan'];
-    $p_diskon= $_POST['diskon'];
-    $p_pajak = $_POST['pajak'];
     $p_bayar = $_POST['bayar'];
     $p_kembali = $_POST['kembalian'];
+    if(empty($p_bayar)){
+        $pesan = "<div class='alert alert-danger' role='alert'>
+                      Masukkan jumlah uang pembayaran!
+                    </div>";  
+    }elseif($p_kembali == "Uang pembayaran kurang"){
+        $pesan = "<div class='alert alert-danger' role='alert'>
+                      Uang pembayaran kurang, silahkan masukkan dengan benar!
+                    </div>"; 
+    }else{
+    $p_no = $_POST['nopem'];
+    $p_totalpem = str_replace(".","",$_POST['totalpemesanan']) * 1;
+    $p_diskon= str_replace(".","",$_POST['diskon']) * 1;
+    $p_pajak = str_replace(".","",$_POST['pajak']) * 1;
+    $p_bayar = str_replace(".","",$p_bayar) * 1;
+    $p_kembali = str_replace(".","",$p_kembali) * 1;
     $idkasir = $_SESSION["id_Pegawai"];
     mysqli_query($conn, "INSERT INTO `data_pembayaran` (`id_pembayaran`, `no_pemesanan`, `id_kasir`, `total_harga`, `pajak`, `uang_pembayaran`, `uang_kembalian`, `tanggal_pembayaran`, `validasi`, `validator`) VALUES (NULL, '$p_no', '$idkasir', '$p_totalpem', '$pajak', '$p_bayar', '$p_kembali', NOW(), 'blm divalidasi', NULL)");
     header("location: ?page=listdatabayar");
+    }
     }
 ?>
 
@@ -41,6 +54,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 <div class="col-md-6">
                     <div class="info-form">
                         <form action="?page=pembayaran&bayar=<?php echo $pembay;?>" method="POST" class="form-inline justify-content-center" >
+                            <?= $pesan; ?>
                             <div class="row g-3 align-items-center mb-3">
                                 <div class="col-md-3">
                                     <label class="col-form-label">No Pemesanan</label>
@@ -54,7 +68,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                                     <label class="col-form-label">Total Pemesanan</label>
                                 </div>
                                 <div class="col-md-6">
-                                    <input type="text" name="totalpemesanan" value="<?php echo $ttlpem;?>" class="form-control" readonly>
+                                    <input type="text" name="totalpemesanan" value="<?php echo $ttlpem;?>" class="form-control format-angka" readonly>
                                 </div>
                             </div>
                             <div class="row g-3 align-items-center mb-3">
@@ -62,7 +76,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                                     <label class="col-form-label">Diskon</label>
                                 </div>
                                 <div class="col-md-6">
-                                    <input type="text" name="diskon" value="<?php echo $diskon;?>" class="form-control" readonly>
+                                    <input type="text" name="diskon" value="<?php echo $diskon;?>" class="form-control format-angka" readonly>
                                 </div>
                             </div>
                             <div class="row g-3 align-items-center mb-3">
@@ -70,7 +84,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                                     <label class="col-form-label">Pajak</label>
                                 </div>
                                 <div class="col-md-6">
-                                    <input type="text" name="pajak" value="<?php echo $pajak;?>" class="form-control" readonly>
+                                    <input type="text" name="pajak" value="<?php echo $pajak;?>" class="form-control format-angka" readonly>
                                 </div>
                             </div>
                             <div class="row g-3 align-items-center mb-3">
@@ -78,7 +92,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                                     <label class="col-form-label">Total Bayar</label>
                                 </div>
                                 <div class="col-md-6">
-                                    <input type="text" id="totalbayar" name="totalbayar" value="<?php echo $totalbayar;?>" class="form-control" readonly>
+                                    <input type="text" id="totalbayar" name="totalbayar" value="<?php echo $totalbayar;?>" class="form-control format-angka" readonly>
                                 </div>
                             </div>
                             <div class="row g-3 align-items-center mb-3">
@@ -86,7 +100,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                                     <label class="col-form-label">Uang Pembayaran</label>
                                 </div>
                                 <div class="col-md-6">
-                                    <input type="text" id="uangbayar" name="bayar" onkeypress="return event.charCode >= 48 && event.charCode <= 57" onkeyup="pembayaran(this)" placeholder="Rp." class="form-control" required>
+                                    <input type="text" id="uangbayar" name="bayar" onkeypress="return event.charCode >= 48 && event.charCode <= 57" onkeyup="pembayaran(this)" placeholder="Rp." class="form-control format-angka">
                                 </div>
                             </div>
                             <div class="row g-3 align-items-center mb-3">
@@ -94,7 +108,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                                     <label class="col-form-label">Uang Kembalian</label>
                                 </div>
                                 <div class="col-md-6">
-                                    <input type="text" placeholder="Rp." name="kembalian" id="uangkembali" class="form-control" readonly="">
+                                    <input type="text" placeholder="Rp." name="kembalian" id="uangkembali" class="form-control format-angka" readonly="">
                                 </div>
                             </div>
                             <div class="row g-3 align-items-center mb-3">
@@ -116,6 +130,14 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://cdn.rawgit.com/igorescobar/jQuery-Mask-Plugin/1ef022ab/dist/jquery.mask.min.js"></script>
 <script>
+
+    $(document).ready(function() {
+        // Format mata uang.
+        $('.format-angka').mask('0.000.000.000', {
+            reverse: true
+        });
+    })
+
     setInterval(function(){
             var uangbayar = (document.getElementById("uangbayar").value * 1);
             var totalharga = document.getElementById("totalbayar").value;
@@ -124,8 +146,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             } else {
                 document.getElementById("uangkembali").value = uangbayar - totalharga;
             }
-    }, 10);
-    
-    
+    }, 10);   
 </script>
 <?php include 'includes/footer.html' ?>

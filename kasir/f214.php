@@ -61,10 +61,10 @@ if (!isset($_GET['page'])) {
         <tr>
             <td><?php echo $out['No Pemesanan']; ?></td>
             <td><?php echo $out['Nama kasir']; ?></td>
-            <td><?php echo $out['Total Harga']; ?></td>
-            <td><?php echo $out['Pajak']; ?></td>
-            <td><?php echo $out['Uang Pembayaran']; ?></td>
-            <td><?php echo $out['Uang Kembalian']; ?></td>
+            <td><?php echo rupiah($out['Total Harga']); ?></td>
+            <td><?php echo rupiah($out['Pajak']); ?></td>
+            <td><?php echo rupiah($out['Uang Pembayaran']); ?></td>
+            <td><?php echo rupiah($out['Uang Kembalian']); ?></td>
             <td><?php echo $out['Tanggal Pembayaran']; ?></td>
         </tr>
         <?php $no++;} ?>
