@@ -1,15 +1,24 @@
 <?php include 'includes/header.html' ?>
-<?php include 'includes/pelayan__navbar.php' ?>
-<form action="" method="POST">
+<?php include 'includes/pelayan__navbar.php';
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if(isset($_POST['tambah'])){
+        echo "a";
+        var_dump($_POST['nomeja']);
+    }elseif(isset($_POST['edit'])){
+        echo "b";
+        var_dump($_POST['nopem']);
+    }
+}
+
+?>
+<form action="?page=pemesanan" method="POST">
 <div class="container mt-3">
     <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
         <div class="btn-group me-2" role="group" aria-label="First group" id="tambah" style="display: none;">
-            <input type="submit" name="tambah" class="btn btnnew__medium" value="Tambah">
-            <i class='bx bx-plus-circle'> </i>
+            <button type="submit" name="tambah" class="btn btnnew__medium" value="Tambah">Tambah<i class='bx bx-plus-circle'> </i></button>
         </div>
-        <div class="btn-group mr-2" role="group" aria-label="Second group" id="edit" style="display: none;">
-            <input type="submit" name="edit" class="btn btn-warning" value="Edit Pemesanan">
-            <i class='bx bx-edit'></i>
+        <div class="btn-group mr-2 " role="group" aria-label="Second group" id="edit" style="display: none;">
+            <button type="submit" name="edit" class="btn btn-warning" value="Edit Pemesanan">Edit Pemesanan<i class='bx bx-edit'></i></button>
         </div>
     </div>
 </div>
@@ -42,16 +51,18 @@
         if (ini.checked==true) {
             for (var i = 1; i <= document.getElementById('no').value; i++) {
                 if (document.getElementById(i).value == ini.value) {
-                    document.getElementById(i).checked=true;
+                    
                     if (document.getElementById('status'+ini.value).value=="tersedia") {
                         document.getElementById('tambah').style.display="block";
                         document.getElementById('edit').style.display="none";
                         for (var b = 1; b <= document.getElementById('no').value; b++) {
                             if (document.getElementById(b).value!="") {
                                 document.getElementById(b).checked=false;
+                                
                             } 
                         }
                     } else {
+                        document.getElementById(i).checked=true;
                         document.getElementById('tambah').style.display="none";
                         document.getElementById('edit').style.display="block";
                         

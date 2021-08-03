@@ -58,7 +58,8 @@ while($data = mysqli_fetch_array($meja)){
                 
                 <h3 class="my-5">    
                     <div class="form-check d-flex justify-content-center">
-                        <input class="form-check-input" type="checkbox" value="<?php echo $data['no_pemesanan'] ?>" name="nomeja[]" id="<?php echo $no; ?>" onchange="myfunction(this)">
+                        <input type="hidden" name="nomeja[]" value="<?php echo $data['no_meja']; ?>" id="nomeja<?php echo $no; ?>" disabled>
+                        <input class="form-check-input" type="checkbox" value="<?php echo $data['no_pemesanan'] ?>" name="nopem[]" id="<?php echo $no; ?>" onchange="myfunction(this)">
                         <input type="hidden" id="status<?php echo $data['no_pemesanan'] ?>" value="<?php echo $data['status']; ?>">
                         <input type="hidden" id="nopemesanan<?php echo $data['no_pemesanan'] ?>" value="<?php echo $data['no_pemesanan'] ?>">
                         <label class="form-check-label" for="defaultCheck1">
