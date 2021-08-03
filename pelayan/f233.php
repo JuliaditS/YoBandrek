@@ -1,18 +1,18 @@
 <?php include 'includes/header.html' ?>
 <?php include 'includes/pelayan__navbar.php';
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if(isset($_POST['tambah'])){
-        echo "a";
-        var_dump($_POST['nomeja']);
-    }elseif(isset($_POST['edit'])){
-        echo "b";
-        var_dump($_POST['nopem']);
-        var_dump($_POST['nomeja']);
+if ($_SERVER["REQUEST_METHOD"] == "GET") {
+    if(isset($_GET['tambah'])){        
+        $url = substr($_SERVER['QUERY_STRING'],15);
+        header("location: ?page=tambahpemesanan&".$url);
+    }elseif(isset($_GET['edit'])){
+        $url = substr($_SERVER['QUERY_STRING'],15);
+        header("location: ?page=editpemesanan&".$url);
     }
 }
 
 ?>
-<form action="?page=pemesanan" method="POST">
+<form action="" method="GET">
+    <input type="hidden" name="page" value="pemesanan">
 <div class="container mt-3">
     <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
         <div class="btn-group me-2" role="group" aria-label="First group" id="tambah" style="display: none;">
