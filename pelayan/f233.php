@@ -7,6 +7,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }elseif(isset($_POST['edit'])){
         echo "b";
         var_dump($_POST['nopem']);
+        var_dump($_POST['nomeja']);
     }
 }
 
@@ -49,6 +50,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     })
     function myfunction(ini){
         if (ini.checked==true) {
+            document.getElementById('nomeja'+ini.id).disabled=false;
             for (var i = 1; i <= document.getElementById('no').value; i++) {
                 if (document.getElementById(i).value == ini.value) {
                     
@@ -58,10 +60,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         for (var b = 1; b <= document.getElementById('no').value; b++) {
                             if (document.getElementById(b).value!="") {
                                 document.getElementById(b).checked=false;
+                                document.getElementById('nomeja'+b).disabled=true;
                                 
                             } 
                         }
                     } else {
+                        document.getElementById('nomeja'+i).disabled=false;
                         document.getElementById(i).checked=true;
                         document.getElementById('tambah').style.display="none";
                         document.getElementById('edit').style.display="block";
@@ -74,10 +78,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         for (var b = 1; b <= document.getElementById('no').value; b++) {
                             if (document.getElementById(b).value!="") {
                                 document.getElementById(b).checked=false;
+                                document.getElementById('nomeja'+b).disabled=true;
                             } 
                         }
                     } else {
                         document.getElementById(i).checked=false;
+                        document.getElementById('nomeja'+i).disabled=true;
                     }
                     
                 }
@@ -87,6 +93,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         } else {
             for (var i = 1; i <= document.getElementById('no').value; i++) {
                 if (document.getElementById(i).value == ini.value) {
+                    document.getElementById('nomeja'+i).disabled=true;
                     document.getElementById(i).checked=false;
                     document.getElementById('tambah').style.display="none";
                     document.getElementById('edit').style.display="none";
