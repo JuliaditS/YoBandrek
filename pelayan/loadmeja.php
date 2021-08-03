@@ -3,6 +3,21 @@ error_reporting(0);
 include "../includes/functions.php";
 $meja = mysqli_query($conn, "SELECT * FROM `data_meja` ORDER BY `data_meja`.`no_meja` ASC");
 $daftar= array();
+function acak($panjang)
+{
+    $karakter= 'ABCDEFabcdef1234567890';
+    $string = '';
+    for ($i = 0; $i < $panjang; $i++) {
+    $pos = rand(0, strlen($karakter)-1);
+    $string .= $karakter{$pos};
+    }
+    return $string;
+}
+while($data2 = mysqli_fetch_array($meja)){
+    $daftar[$data2['no_pemesanan']][]=acak(6);
+}
+var_dump($daftar);
+die();
 while($data = mysqli_fetch_array($meja)){
 ?>
         
@@ -12,15 +27,28 @@ while($data = mysqli_fetch_array($meja)){
                 <p style="color: black; text-decoration: none">
                 <div class="card text-black bg-white">
             <?php } else{ ?>
+                <div style="background-color: #1db133;"><p>test</p></div>
                 <?php
-                $nomejapemesanan= $data['no_meja']." "."$data['no_pemesanan']";
-                $angka = substr($nomejapemesanan, 3);
-                array_push($nomejapemesanan); 
-                for ($i=0; $i <sizeof($daftar) ; $i++) { 
-                     if ($daftar[i]!=$data['no_pemesanan']) {
-                         
-                     }
-                 } 
+                
+
+                $nomejapemesanan= $data['no_meja']." ".$data['no_pemesanan'];
+                $angka = substr($data['no_pemesanan'], -1);
+                
+                for ($i=0; $i <= sizeof($daftar); $i++) { 
+                    if ($daftar[$i]!=$data['no_pemesanan']) {
+                        if ($angka==substr($daftar[$i], -1)) {
+                            $angka++;
+                        }
+                    }
+                }
+                // array_push($nomejapemesanan); 
+                // for ($i=0; $i <sizeof($daftar) ; $i++) { 
+                //      if (substr($daftar[i], 3)!=substr($nomejapemesanan, 3)) {
+                //          if (substr(substr($nomejapemesanan, 3), -1)==substr(substr($daftar[i], 3), -1)) {
+                //              array_push($nomejapemesanan);
+                //          }
+                //      }
+                //  } 
                 switch ($angka) {
                     case '1':
                         ?>
