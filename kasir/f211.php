@@ -57,7 +57,7 @@ if (!isset($_GET['page'])) {
         <tr>
             <td><?php echo $out["No Pemesanan"];?></td>
             <td><?php echo $out["Status Pesanan"];?></td>
-            <td><?php echo $out["Total Harga"];?></td>
+            <td><?php echo rupiah($out["Total Harga"]);?></td>
             <td>
                 <?php 
                 if ($out["Status Pesanan"]=="disajikan") {

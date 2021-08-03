@@ -37,7 +37,7 @@ $pend   = mysqli_fetch_array(mysqli_query($conn, "SELECT SUM(total_harga) AS tot
                 <div class="card card__infoowner">
                     <div class="card-body text-center">
                         <h5 class="card-title">Jumlah Pemasukan</h5>
-                        <h3 class="card-text">Rp. <?php echo $pend['total']; ?></h3>
+                        <h3 class="card-text"><?php echo rupiah($pend['total']); ?></h3>
                     </div>
                 </div>
             </div>
