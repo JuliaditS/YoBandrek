@@ -39,9 +39,9 @@ function getListMenu($halaman_awal=Null, $batas=Null, $tipe="semua", $cari=Null)
     $db = dbConnect();
     if ($db->connect_errno == 0) {
         if ($tipe=="semua")
-            $sql = "SELECT * FROM data_menu ORDER BY nama ".(($halaman_awal==Null&&$batas==Null) ? "" : "limit $halaman_awal, $batas");
+            $sql = "SELECT * FROM data_menu WHERE keterangan = 'divalidasi' ORDER BY nama ".(($halaman_awal==Null&&$batas==Null) ? "" : "limit $halaman_awal, $batas");
         else
-            $sql = "SELECT * FROM data_menu WHERE jenis like '%$cari%' OR nama like '%$cari%' OR harga like '%$cari%' ORDER BY nama ".(($halaman_awal==Null&&$batas==Null) ? "" : "limit $halaman_awal, $batas");  
+            $sql = "SELECT * FROM data_menu WHERE keterangan = 'divalidasi' AND (jenis like '%$cari%' OR nama like '%$cari%' OR harga like '%$cari%') ORDER BY nama ".(($halaman_awal==Null&&$batas==Null) ? "" : "limit $halaman_awal, $batas");  
         $res = $db->query($sql);
         if ($res) {
             $data = $res->fetch_all(MYSQLI_ASSOC);

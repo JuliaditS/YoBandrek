@@ -2,6 +2,7 @@
 error_reporting(0);
 include "../includes/functions.php";
 $meja = mysqli_query($conn, "SELECT * FROM `data_meja` ORDER BY `data_meja`.`no_meja` ASC");
+$daftar= array();
 while($data = mysqli_fetch_array($meja)){
 ?>
         
@@ -12,7 +13,14 @@ while($data = mysqli_fetch_array($meja)){
                 <div class="card text-black bg-white">
             <?php } else{ ?>
                 <?php
-                $angka = substr($data['no_pemesanan'], -1);  
+                $nomejapemesanan= $data['no_meja']." "."$data['no_pemesanan']";
+                $angka = substr($nomejapemesanan, 3);
+                array_push($nomejapemesanan); 
+                for ($i=0; $i <sizeof($daftar) ; $i++) { 
+                     if ($daftar[i]!=$data['no_pemesanan']) {
+                         
+                     }
+                 } 
                 switch ($angka) {
                     case '1':
                         ?>
