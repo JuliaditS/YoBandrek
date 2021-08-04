@@ -31,16 +31,24 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                       Uang pembayaran kurang, silahkan masukkan dengan benar!
                     </div>"; 
     }else{
-    $p_no = $_POST['nopem'];
-    $p_totalpem = str_replace(".","",$_POST['totalpemesanan']) * 1;
-    $p_diskon= str_replace(".","",$_POST['diskon']) * 1;
-    $p_pajak = str_replace(".","",$_POST['pajak']) * 1;
-    $p_bayar = str_replace(".","",$p_bayar) * 1;
-    $p_kembali = str_replace(".","",$p_kembali) * 1;
-    $idkasir = $_SESSION["id_Pegawai"];
-    mysqli_query($conn, "INSERT INTO `data_pembayaran` (`id_pembayaran`, `no_pemesanan`, `id_kasir`, `total_harga`, `pajak`, `uang_pembayaran`, `uang_kembalian`, `tanggal_pembayaran`, `validasi`, `validator`) VALUES (NULL, '$p_no', '$idkasir', '$p_totalpem', '$pajak', '$p_bayar', '$p_kembali', NOW(), 'blm divalidasi', NULL)");
-    header("location: ?page=listdatabayar");
-    }
+        $p_no = $_POST['nopem'];
+        $p_totalpem = str_replace(".","",$_POST['totalpemesanan']) * 1;
+        $p_diskon= str_replace(".","",$_POST['diskon']) * 1;
+        $p_pajak = str_replace(".","",$_POST['pajak']) * 1;
+        $p_bayar = str_replace(".","",$p_bayar) * 1;
+        $p_kembali = str_replace(".","",$p_kembali) * 1;
+        $idkasir = $_SESSION["id_Pegawai"];
+        mysqli_query($conn, "INSERT INTO `data_pembayaran` (`id_pembayaran`, `no_pemesanan`, `id_kasir`, `total_harga`, `pajak`, `uang_pembayaran`, `uang_kembalian`, `tanggal_pembayaran`, `validasi`, `validator`) VALUES (NULL, '$p_no', '$idkasir', '$p_totalpem', '$pajak', '$p_bayar', '$p_kembali', NOW(), 'blm divalidasi', NULL)");
+        $a = mysqli_query($conn, "SELECT `data_pemesanan`.*, `data_meja`.*
+        FROM `data_pemesanan` 
+            JOIN `data_meja` ON `data_meja`.`no_pemesanan` = `data_pemesanan`.`no_pemesanan` WHERE `data_pemesanan`.`no_pemesanan` = '$p_no'");
+        while($b = mysqli_fetch_array($a)){
+        $c = $b['no_meja'];
+        mysqli_query($conn, "UPDATE `data_meja` SET `no_pemesanan` = NULL, `status` = 'tersedia' WHERE `data_meja`.`no_meja` = $c");
+        }
+        header("location: ?page=listdatabayar");
+        
+        }
     }
 ?>
 
