@@ -32,6 +32,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $tmpstok = $tmpdata['stok'] - $jumlahs;
     //query datamenu kurang stok
         mysqli_query($conn, "UPDATE `data_menu` SET `stok` = '$tmpstok' WHERE `data_menu`.`kode_menu` = '$kode'");
+        if($tmpstok == 0){
+            mysqli_query($conn, "UPDATE data_menu SET stok = '$tmpstok',status = 'tidak tersedia' WHERE kode_menu = '$kode'");  
+        }
     }
 header("location: ?page=pemesanan");
 }
