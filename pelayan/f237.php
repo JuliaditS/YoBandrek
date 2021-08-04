@@ -54,6 +54,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo $kode."<br>";
             $aaaa = $d['stok'] - $_POST['jumlah'][$no];
             mysqli_query($conn, "UPDATE data_menu SET stok = '$aaaa' WHERE kode_menu = '$kode'");
+            if($aaaa == 0){
+                mysqli_query($conn, "UPDATE data_menu SET stok = '$aaaa',status = 'tidak tersedia' WHERE kode_menu = '$kode'");  
+            }
             mysqli_query($conn, "INSERT INTO `detail_pemesanan` (`no_pemesanan`, `kode_menu`, `keterangan`, `jumlah`) VALUES ('$nopems', '$kode', '$keterangan', '$jml')");
         }elseif($c['jumlah'] == $_POST['jumlah'][$no]){
             //do nothing
@@ -66,6 +69,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $jml = $_POST['jumlah'][$no];
                 $tambah = $d['stok'] - ($_POST['jumlah'][$no] - $c['jumlah']);
                 //query jalan
+                if($tambah == 0){
+                    mysqli_query($conn, "UPDATE data_menu SET stok = '$tambah',status = 'tidak tersedia' WHERE kode_menu = '$kode'");  
+                }
                 mysqli_query($conn, "UPDATE detail_pemesanan SET jumlah='$jml' WHERE no_pemesanan ='$nopems' AND kode_menu = '$kode'");
                mysqli_query($conn, "UPDATE data_menu SET stok = '$tambah' WHERE kode_menu = '$kode'");
                 //update jumlah detail_pemesanan
@@ -75,6 +81,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }elseif($c['jumlah'] >= $_POST['jumlah'][$no]){
             $pengurangan = ($c['jumlah'] - $_POST['jumlah'][$no])+$d['stok'];
             $jml = $_POST['jumlah'][$no];
+            if($pengurangan == 0){
+                mysqli_query($conn, "UPDATE data_menu SET stok = '$pengurangan',status = 'tidak tersedia' WHERE kode_menu = '$kode'");  
+            }
             //update stok data_menu
             mysqli_query($conn, "UPDATE `data_menu` SET `stok` = '$pengurangan' WHERE `data_menu`.`kode_menu` = '$kode'");
             //update jumlah detail_pemesanan
