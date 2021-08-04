@@ -15,7 +15,7 @@ for($i=1; $i<count($tmeja); $i++){
 $tmpket = mysqli_fetch_array(mysqli_query($conn, "select keterangan from detail_pemesanan where no_pemesanan = '$nopems'"))[0];
 //query menu
 $tmpdata= mysqli_query($conn, "SELECT `data_pemesanan`.`no_pemesanan`, `detail_pemesanan`.`jumlah`,data_menu.`kode_menu`, `data_menu`.nama, data_menu.`harga`,data_menu.`stok` FROM `data_pemesanan` JOIN `detail_pemesanan` ON `detail_pemesanan`.`no_pemesanan` = `data_pemesanan`.`no_pemesanan`  JOIN `data_menu` ON `detail_pemesanan`.`kode_menu` = `data_menu`.`kode_menu` WHERE data_pemesanan.`no_pemesanan` = '$nopems'");
-
+$tmpdata2= mysqli_query($conn, "SELECT * from data_menu");
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $tkode = $_POST['kode'];
@@ -132,17 +132,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <th class="col-md-1">Jumlah</th>
                 </tr>
                 <?php 
-                while($tmp2 = mysqli_fetch_array($tmpdata)){
+                while($tmp2 = mysqli_fetch_array($tmpdata2)){
+                $e = $tmp2['kode_menu'];
+                    while($tmp3 = mysqli_fetch_array($tmpdata)){
+                        $d = $tmp3['kode_menu'];
+                        
+                    }
                 ?>
                 <tr>
                     <td>
                         <div class="form-check">
-                            <input class="form-check-input" id="<?php echo $tmp2['kode_menu'];?>" name="kode[]" type="checkbox" value="<?php echo $tmp2['kode_menu'];?>" id="flexCheckDefault" onclick="myFunction(this)" checked>
+                            <input class="form-check-input" id="<?php echo $data = $tmp2['kode_menu'];?>" name="kode[]" type="checkbox" value="<?php echo $tmp2['kode_menu'];?>" id="flexCheckDefault" onclick="myFunction(this)" 
+                            <?php 
+                            if($d == $e){
+                                echo "checked";
+                            }
+                            ?>
+                            > 
+                            
                             <label class="form-check-label" for="flexCheckDefault">
                                 <?php echo $tmp2['nama'];?>
                             </label>
                         </div>
                     </td>
+                    
+                            
                     <td>
                         Rp. <?php echo $tmp2['harga']; ?>
                     </td>
@@ -151,7 +165,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <input name="jumlah[]" type="number" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" min="1" max="<?php echo $tmp2['jumlah']+$tmp2['stok'];?>" maxlength="<?php echo $lenght; ?>" id="jumlah<?php echo $tmp2['kode_menu'];?>" value="<?php echo $tmp2['jumlah'];?>">
                     </td>
                 </tr>
-                <?php } ?>
+                
+                 
+                <?php 
+                } ?>
+                
+
             </table>
             </form>
         </div>

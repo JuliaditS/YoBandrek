@@ -5,7 +5,7 @@ if (!isset($_GET['page'])) {
     header("Location: index.php");
 }
 $jmltra = mysqli_num_rows(mysqli_query($conn, "select * from data_pembayaran"));
-$menpem = mysqli_num_rows(mysqli_query($conn, "SELECT `data_pemesanan`.`no_pemesanan`, `data_pemesanan`.* FROM `data_pemesanan` WHERE no_pemesanan NOT IN (SELECT no_pemesanan FROM data_pembayaran)"));
+$menpem = mysqli_num_rows(mysqli_query($conn, "SELECT `data_pemesanan`.`no_pemesanan`, `data_pemesanan`.* FROM `data_pemesanan` WHERE no_pemesanan NOT IN (SELECT no_pemesanan FROM data_pembayaran) AND data_pemesanan.`status_pesanan` = 'disajikan'"));
 $pend   = mysqli_fetch_array(mysqli_query($conn, "SELECT SUM(total_harga) AS total FROM data_pembayaran"));
 ?>
 
