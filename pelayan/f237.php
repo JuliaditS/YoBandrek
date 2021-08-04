@@ -14,8 +14,8 @@ for($i=1; $i<count($tmeja); $i++){
 //query keterangan
 $tmpket = mysqli_fetch_array(mysqli_query($conn, "select keterangan from detail_pemesanan where no_pemesanan = '$nopems'"))[0];
 //query menu
-$tmpdata= mysqli_query($conn, "SELECT `data_pemesanan`.`no_pemesanan`, `detail_pemesanan`.`jumlah`,data_menu.`kode_menu`, `data_menu`.nama, data_menu.`harga`,data_menu.`stok` FROM `data_pemesanan` JOIN `detail_pemesanan` ON `detail_pemesanan`.`no_pemesanan` = `data_pemesanan`.`no_pemesanan`  JOIN `data_menu` ON `detail_pemesanan`.`kode_menu` = `data_menu`.`kode_menu` WHERE data_pemesanan.`no_pemesanan` = '$nopems'");
-$tmpdata2= mysqli_query($conn, "SELECT * from data_menu");
+
+$tmpdata2= mysqli_query($conn, "select * from data_menu where keterangan = 'divalidasi'");
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $tkode = $_POST['kode'];
@@ -42,33 +42,37 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     foreach($tkode as $kode){
         $no = $no + 1;
         //query jumlah detail_pemesanan
-        $c = mysqli_fetch_array(mysqli_query($conn, "select jumlah from detail_pemesanan where no_pemesanan = '$nopems' and kode_menu = '$kode'"));
+
+        $c = mysqli_fetch_array(mysqli_query($conn, "SELECT jumlah, kode_menu FROM detail_pemesanan WHERE detail_pemesanan.no_pemesanan = '$nopems' AND kode_menu = '$kode'"));
         //query stok data_menu
         $d = mysqli_fetch_array(mysqli_query($conn, "select nama, stok from data_menu where kode_menu ='$kode'"));
         mysqli_query($conn, "UPDATE detail_pemesanan SET keterangan ='$keterangan' WHERE kode_menu = '$kode' AND no_pemesanan ='$nopems'");
+        $jml = $_POST['jumlah'][$no];
         //validasi
         //stok sama
-        if($c['jumlah'] == $_POST['jumlah'][$no]){
-            echo "sama";
+        if(empty($c['kode_menu'])){
+            echo $kode."<br>";
+            $aaaa = $d['stok'] - $_POST['jumlah'][$no];
+            mysqli_query($conn, "UPDATE data_menu SET stok = '$aaaa' WHERE kode_menu = '$kode'");
+            mysqli_query($conn, "INSERT INTO `detail_pemesanan` (`no_pemesanan`, `kode_menu`, `keterangan`, `jumlah`) VALUES ('$nopems', '$kode', '$keterangan', '$jml')");
+        }elseif($c['jumlah'] == $_POST['jumlah'][$no]){
             //do nothing
         //stok nambah
         }elseif($c['jumlah'] <= $_POST['jumlah'][$no]){
-            
-            if(($_POST['jumlah'][$no] - $c['jumlah']) >= $d['stok']){
+            if(($_POST['jumlah'][$no] - $c['jumlah']) <= 0){
+                
                 array_push($error,"stok pada ".$d['nama']." kurang.");
             }else{
-                
                 $jml = $_POST['jumlah'][$no];
                 $tambah = $d['stok'] - ($_POST['jumlah'][$no] - $c['jumlah']);
                 //query jalan
-                mysqli_query($conn, "UPDATE detail_pemesanan SET jumlah='$jumlah' WHERE no_pemesanan ='$nopems' AND kode_menu = '$kode'");
-                mysqli_query($conn, "UPDATE data_menu SET stok = '$tambah' WHERE kode_menu = '$kode'");
+                mysqli_query($conn, "UPDATE detail_pemesanan SET jumlah='$jml' WHERE no_pemesanan ='$nopems' AND kode_menu = '$kode'");
+               mysqli_query($conn, "UPDATE data_menu SET stok = '$tambah' WHERE kode_menu = '$kode'");
                 //update jumlah detail_pemesanan
                 mysqli_query($conn,"UPDATE detail_pemesanan SET jumlah ='$jml' WHERE no_pemesanan ='$nopems' AND kode_menu = '$kode'");
             }
         //stok kurang   
         }elseif($c['jumlah'] >= $_POST['jumlah'][$no]){
-            
             $pengurangan = ($c['jumlah'] - $_POST['jumlah'][$no])+$d['stok'];
             $jml = $_POST['jumlah'][$no];
             //update stok data_menu
@@ -113,19 +117,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <label class="col-form-label"></label>
                     </div>
                     <div class="col-md-6">
-                        <?php foreach($error as $eror){
-                            echo "<span>".$eror."</span><br>";
-                        }?>
-                        
-                    </div>
-                    <div class="col-md-6">
                         <button type="submit" class="btn btnnew__medium">Edit</button>
                     </div>
                 </div>
             
-        </div>
-        <div class="col-md-8">
-            <table class="table table-striped table-hover table-bordered">
+            </div>
+            <div class="col-md-8">
+                <table class="table table-striped table-hover table-bordered">
                 <tr>
                     <th class="col-md-2">Nama Menu</th>
                     <th class="col-md-2">Harga</th>
@@ -134,17 +132,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <?php 
                 while($tmp2 = mysqli_fetch_array($tmpdata2)){
                 $e = $tmp2['kode_menu'];
-                    while($tmp3 = mysqli_fetch_array($tmpdata)){
-                        $d = $tmp3['kode_menu'];
-                        
-                    }
+                $d= mysqli_fetch_array(mysqli_query($conn, "SELECT `data_pemesanan`.`no_pemesanan`, `detail_pemesanan`.`jumlah`,data_menu.`kode_menu`, `data_menu`.nama, data_menu.`harga`,data_menu.`stok` FROM `data_pemesanan` JOIN `detail_pemesanan` ON `detail_pemesanan`.`no_pemesanan` = `data_pemesanan`.`no_pemesanan`  JOIN `data_menu` ON `detail_pemesanan`.`kode_menu` = `data_menu`.`kode_menu` WHERE data_pemesanan.`no_pemesanan` = '$nopems' AND `data_menu`.kode_menu = '$e'"));   
                 ?>
                 <tr>
                     <td>
                         <div class="form-check">
-                            <input class="form-check-input" id="<?php echo $data = $tmp2['kode_menu'];?>" name="kode[]" type="checkbox" value="<?php echo $tmp2['kode_menu'];?>" id="flexCheckDefault" onclick="myFunction(this)" 
+                            <input class="form-check-input" id="<?php echo $tmp2['kode_menu'];?>" name="kode[]" type="checkbox" value="<?php echo $tmp2['kode_menu'];?>" id="flexCheckDefault" onclick="myFunction(this)" 
                             <?php 
-                            if($d == $e){
+                            if(!empty($d['kode_menu'])){
                                 echo "checked";
                             }
                             ?>
@@ -160,17 +155,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <td>
                         Rp. <?php echo $tmp2['harga']; ?>
                     </td>
-                    <td><?php $lenght = strlen($tmp2['jumlah']+$tmp2['stok']);?>
+                    <td><?php if(empty($d['kode_menu'])){ $lenght = strlen($tmp2['stok']); }else{ $lenght = strlen($d['jumlah']+$d['stok']); }?>
                         
-                        <input name="jumlah[]" type="number" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" min="1" max="<?php echo $tmp2['jumlah']+$tmp2['stok'];?>" maxlength="<?php echo $lenght; ?>" id="jumlah<?php echo $tmp2['kode_menu'];?>" value="<?php echo $tmp2['jumlah'];?>">
+                        <input name="jumlah[]" type="number" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                        <?php 
+                        if($tmp2['stok']==0 AND $d['jumlah']==0)
+                        {
+                            echo "min=0 max=0";
+                        }else{ 
+                            $max = $d['jumlah']+$tmp2['stok'];
+                        echo  "min=1 max=".$max;
+                        } ?> maxlength="<?php echo $lenght; ?>" id="jumlah<?php echo $tmp2['kode_menu'];?>"  
+                        <?php if(!empty($d['kode_menu'])){ ?> 
+                            value="<?php echo $d['jumlah'];?>"
+                        <?php } if(empty($d['kode_menu'])){ ?>
+                            disabled
+                        <?php } ?>>
                     </td>
-                </tr>
-                
-                 
+                </tr>              
                 <?php 
                 } ?>
-                
-
             </table>
             </form>
         </div>
