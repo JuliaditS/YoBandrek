@@ -139,13 +139,19 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     })
 
     setInterval(function(){
-            var uangbayar = (document.getElementById("uangbayar").value * 1);
-            var totalharga = document.getElementById("totalbayar").value;
+            var uangbayar2 = document.getElementById("uangbayar").value.replace(".", "");
+            var uangbayar1 = uangbayar2.replace(".","");
+            var uangbayar  = uangbayar1.replace(".","") * 1;
+            // var uangbayar = (document.getElementById("uangbayar").value * 1);
+            var totalharga2 = document.getElementById("totalbayar").value.replace(".", "");
+            var totalharga1 = totalharga2.replace(".", "");
+            var totalharga =  totalharga1.replace(".", "") * 1;
             if (uangbayar < totalharga) {
                 document.getElementById("uangkembali").value = "Uang pembayaran kurang";
             } else {
-                document.getElementById("uangkembali").value = uangbayar - totalharga;
+
+                document.getElementById("uangkembali").value = new Intl.NumberFormat("de-DE").format(uangbayar - totalharga);
             }
-    }, 10);   
+    }, 10); 
 </script>
 <?php include 'includes/footer.html' ?>
