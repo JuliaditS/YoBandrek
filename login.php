@@ -25,8 +25,12 @@ if (isset($_SESSION["id_Pegawai"])) {
                 <div class="mb-3">
                     <input type="text" name="username" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Username">
                 </div>
-                <div class="mb-3">
+                <div class= "input-group mb-3">
                     <input type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                    <span class="input-group-btn">
+                    <button class="btn btn-default reveal" type="button" onclick="myFunction();"><i id="toogleP" class="fa fa-eye-slash"></i>
+                    </button>
+          </span>
                 </div>
                 <div class="d-flex justify-content-center">
                     <button type="submit" name="TblLogin" class="btn btn__search">Login</button>
@@ -35,5 +39,20 @@ if (isset($_SESSION["id_Pegawai"])) {
         </div>
     </div>
 </div>
+<script >
+    function myFunction() {
+      var x = document.getElementById("exampleInputPassword1");
+      var toogleP = document.querySelector('#toogleP');
+      if (x.type === "password") {
+        x.type = "text";
+        toogleP.classList.remove('fa-eye-slash');
+        toogleP.classList.add('fa-eye');
+      } else {
+        x.type = "password";
+        toogleP.classList.remove('fa-eye');
+        toogleP.classList.add('fa-eye-slash');
+      }
+    } 
+</script>
 
 <?php include 'includes/footer.html'; ?>

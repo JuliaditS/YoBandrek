@@ -1,13 +1,25 @@
 <?php include 'includes/header.html' ?>
-<?php include 'includes/pelayan__navbar.php' ?>
+<?php include 'includes/pelayan__navbar.php';
+if ($_SERVER["REQUEST_METHOD"] == "GET") {
+    if(isset($_GET['tambah'])){        
+        $url = substr($_SERVER['QUERY_STRING'],15);
+        header("location: ?page=tambahpemesanan&".$url);
+    }elseif(isset($_GET['edit'])){
+        $url = substr($_SERVER['QUERY_STRING'],15);
+        header("location: ?page=editpemesanan&".$url);
+    }
+}
 
+?>
+<form action="" method="GET">
+    <input type="hidden" name="page" value="pemesanan">
 <div class="container mt-3">
     <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
-        <div class="btn-group me-2" role="group" aria-label="First group">
-            <a href="?page=tambahpemesanan" type="button" class="btn btnnew__medium"> <i class='bx bx-plus-circle'> </i>Tambah</a>
+        <div class="btn-group me-2" role="group" aria-label="First group" id="tambah" style="display: none;">
+            <button type="submit" name="tambah" class="btn btnnew__medium" value="Tambah">Tambah<i class='bx bx-plus-circle'> </i></button>
         </div>
-        <div class="btn-group mr-2" role="group" aria-label="Second group">
-            <a href="?page=editpemesanan" type="button" class="btn btn-warning"><i class='bx bx-edit'></i> Edit Pemesanan</a>
+        <div class="btn-group mr-2 " role="group" aria-label="Second group" id="edit" style="display: none;">
+            <button type="submit" name="edit" class="btn btn-warning" value="Edit Pemesanan">Edit Pemesanan<i class='bx bx-edit'></i></button>
         </div>
     </div>
 </div>
@@ -18,11 +30,13 @@
     </div>
 
 </div>
+</form>
 <script>
     $(document).ready(function() {
         setInterval(function() {
             loadmeja();
-        }, 1000);
+        }, 10000000);
+
         loadmeja();
 
         function loadmeja() {
@@ -34,5 +48,65 @@
             })
         }
     })
+    function myfunction(ini){
+        if (ini.checked==true) {
+            document.getElementById('nomeja'+ini.id).disabled=false;
+            for (var i = 1; i <= document.getElementById('no').value; i++) {
+                if (document.getElementById(i).value == ini.value) {
+                    
+                    if (document.getElementById('status'+ini.value).value=="tersedia") {
+                        document.getElementById('tambah').style.display="block";
+                        document.getElementById('edit').style.display="none";
+                        for (var b = 1; b <= document.getElementById('no').value; b++) {
+                            if (document.getElementById(b).value!="") {
+                                document.getElementById(b).checked=false;
+                                document.getElementById('nomeja'+b).disabled=true;
+                                
+                            } 
+                        }
+                    } else {
+                        document.getElementById('nomeja'+i).disabled=false;
+                        document.getElementById(i).checked=true;
+                        document.getElementById('tambah').style.display="none";
+                        document.getElementById('edit').style.display="block";
+                        
+                    }
+                } else {
+                    if (document.getElementById('status'+ini.value).value=="tersedia") {
+                        document.getElementById('tambah').style.display="block";
+                        document.getElementById('edit').style.display="none";
+                        for (var b = 1; b <= document.getElementById('no').value; b++) {
+                            if (document.getElementById(b).value!="") {
+                                document.getElementById(b).checked=false;
+                                document.getElementById('nomeja'+b).disabled=true;
+                            } 
+                        }
+                    } else {
+                        document.getElementById(i).checked=false;
+                        document.getElementById('nomeja'+i).disabled=true;
+                    }
+                    
+                }
+            }
+            
+            
+        } else {
+            for (var i = 1; i <= document.getElementById('no').value; i++) {
+                if (document.getElementById(i).value == ini.value) {
+                    document.getElementById('nomeja'+i).disabled=true;
+                    document.getElementById(i).checked=false;
+                    document.getElementById('tambah').style.display="none";
+                    document.getElementById('edit').style.display="none";
+                }
+            }
+        }
+        
+        // for (i = 0; i < ini.length; i++) {
+        //     document.getElementById(ini.id).checked = true;
+
+        // }
+        // console.log('status'+ini.value);
+        
+    }
 </script>
 <?php include 'includes/footer.html' ?>

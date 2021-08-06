@@ -10,7 +10,7 @@ if ($_SESSION["level"]!="owner") {
 ?>
 <div class="container">
     <nav class="navbar navbar-expand-lg navbar-light mt-3 ps-2 pe-3  rounded">
-        <a class="navbar-brand" href="?page">YoBandrek</a>
+        <a class="navbar-brand" href="?page=owner">YoBandrek</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>

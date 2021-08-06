@@ -2,36 +2,56 @@
 include 'includes/header.html';
 include 'includes/barista__navbar.php'; 
 
-if($_SERVER["REQUEST_METHOD"] == "POST"){
-    
+$query = mysqli_query($conn, "SELECT MAX(kode_menu) as kode_terbesar FROM data_menu");
+$data  = mysqli_fetch_array($query);
+$kodeBarang  = $data['kode_terbesar'];
+$urutan = (int)substr($kodeBarang, 5, 5);
+$urutan++;
+$huruf = "MENU";
+$KodeBaru = $huruf . sprintf("%05s", $urutan);
+$pesan = "";
 
-    if(empty(trim($_POST['kodemenu'])))
-    {
-        header("Location: ?page=tambahrekomendasi&error=5");
-    }elseif(empty(trim($_POST['namamenu'])))
-    {
-        header("Location: ?page=tambahrekomendasi&error=5");
-    }elseif(empty(trim($_POST['inlineRadioOptions'])))
-    {
-        header("Location: ?page=tambahrekomendasi&error=5");
-    }elseif(empty(trim($_POST['sharga'])))
-    {
-        header("Location: ?page=tambahrekomendasi&error=5");
+if(isset($_POST['submit'])){
+    $kodemenu = $_POST['kodemenu'];
+    $namamenu = $_POST['namamenu'];   
+    if(empty($kodemenu) && empty($namamenu) && !isset($_POST['inlineRadioOptions']) && empty($_POST['sharga'])){
+        $pesan = "<div class='alert alert-danger' role='alert'>
+                      Isi semua data terlebih dahulu!
+                    </div>";
+    }elseif(empty($kodemenu)){
+        $pesan = "<div class='alert alert-danger' role='alert'>
+                      Kode menu tidak boleh kosong!
+                    </div>";
+    }elseif (!preg_match("/^[a-zA-Z0-9 ]*$/", $namamenu)) {
+        $pesan = "<div class='alert alert-danger' role='alert'>
+                          Nama hanya boleh berupa huruf!
+                        </div>";
+    }elseif(!isset($_POST['inlineRadioOptions'])){
+        $pesan = "<div class='alert alert-danger' role='alert'>
+                          Harap masukan jenis makanan!
+                        </div>";
+    }elseif(empty($_POST['sharga'])){
+        $pesan = "<div class='alert alert-danger' role='alert'>
+                          Harga tidak boleh kosong!
+                        </div>";
     }else{
-        $kodemenu = $_POST['kodemenu'];
-        $namamenu = $_POST['namamenu'];
         $jenis = $_POST['inlineRadioOptions'];
-        $saranharga = $_POST['sharga'];
+        $saranharga = str_replace(".","",$_POST['sharga']) *1;
         $query = mysqli_query($conn, "INSERT INTO `data_menu` (`kode_menu`, `nama`, `jenis`, `harga`, `keterangan`, `status`, `diskon`, `stok`) VALUES ('$kodemenu', '$namamenu', '$jenis', '$saranharga', 'blm divalidasi', 'tidak tersedia', '0', '0')");
         if($query){
-            header("Location: ?page=listmenub");
-            mysqli_close($conn); 
+            $pesan = "<div class='alert alert-success' role='alert'>
+                      Tambah rekomendasi menu berhasil
+                    </div>";
+            header("Refresh:2; url=?page=listmenub");
+            
         }else{
-            header("Location: ?page=tambahrekomendasi&error=6");  
+            $pesan = "<div class='alert alert-danger' role='alert'>
+                      Tambah rekomendasi menu gagal
+                    </div>";  
         }
         
     }
-    
+     
 }
 
 ?>
@@ -45,12 +65,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 <div class="col-md-6">
                     <div class="info-form">
                         <form action="?page=tambahrekomendasi" method="POST" class="form-inline justify-content-center">
+                            <?= $pesan; ?>
                             <div class="row g-3 align-items-center mb-3">
                                 <div class="col-md-3">
                                     <label class="col-form-label">Kode Menu</label>
                                 </div>
                                 <div class="col-md-6">
-                                    <input type="text" id="kodesearch" class="form-control" name="kodemenu" onkeyup="search_kod(this.value);"></input>
+                                    <input type="text" id="kodesearch" class="form-control" name="kodemenu" value="<?= $KodeBaru; ?>" readonly></input>
                                     <span class="help-block" id=cek></span>
                                 </div>
                             </div>
@@ -85,7 +106,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                                     <label class="col-form-label">Saran Harga</label>
                                 </div>
                                 <div class="col-md-6">
-                                    <input type="text" placeholder="Rp" class="form-control" name="sharga">
+                                    <input type="text" placeholder="Rp" class="form-control format-angka" name="sharga">
                                 </div>
                             </div>
 
@@ -94,7 +115,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                                     <label class="col-form-label"></label>
                                 </div>
                                 <div class="col-md-6">
-                                    <button type="submit" class="btn btn__search ">Submit</button>
+                                    <button type="submit" name="submit" class="btn btn__search ">Submit</button>
                                 </div>
                             </div>
 
@@ -105,17 +126,16 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         </div>
     </div>
 </section>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdn.rawgit.com/igorescobar/jQuery-Mask-Plugin/1ef022ab/dist/jquery.mask.min.js"></script>
 <script>
-function search_kod(elem){
-        //no reason to create a jQuery object just use this.value
-          var kodemenu = document.getElementById("kodesearch").value;
-          $.post("barista/checkkode.php",
-            {
-                kodemenu
-            },
-            function(data,status){
-                document.getElementById("cek").innerHTML = data;
-            });
-}
+
+    $(document).ready(function() {
+        // Format mata uang.
+        $('.format-angka').mask('0.000.000.000', {
+            reverse: true
+        });
+    })
 </script>
+
 <?php include 'includes/footer.html' ?>

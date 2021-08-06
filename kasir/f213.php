@@ -3,7 +3,18 @@ include 'includes/header.html';
 include 'includes/kasir__navbar.php';
 if (!isset($_GET['page'])) {
     header("Location: index.php");
-} ?>
+} 
+if(isset($_GET["data"])){ 
+$data = $_GET['data'];
+    $a = mysqli_query($conn, "SELECT id_pembayaran, CONCAT(MONTHNAME(tanggal_pembayaran), ' ', YEAR(tanggal_pembayaran)) AS `tanggal` FROM `data_pembayaran` GROUP BY `tanggal`,id_pembayaran HAVING `tanggal` LIKE '%$data%'");
+    $idvalidator = $_SESSION["id_Pegawai"];
+    while($b = mysqli_fetch_array($a)){
+        $id_pembayaran = $b['id_pembayaran'];       
+        mysqli_query($conn,"UPDATE `data_pembayaran` SET `validasi` = 'divalidasi', `validator` = '$idvalidator' WHERE `data_pembayaran`.`id_pembayaran` = '$id_pembayaran'");
+    }
+header("location: ?page=laporan");
+}
+?>
 <div class="container mt-5">
     <div class="row">
         <div class="col-6 col-md-9">
@@ -38,7 +49,7 @@ if (!isset($_GET['page'])) {
                     $tipe = "semua";
             }
             $batas=10;
-            $data_pegawai = getListLaporanKeuangan(Null,Null,$tipe,$cari);
+            $data_pegawai = getListValidasiLaporan(Null,Null,$tipe,$cari);
             $halaman = (isset($_GET['halaman']))?(int)$_GET['halaman'] : 1;
             $halaman_awal = ($halaman>1) ? ($halaman * $batas) - $batas : 0;
             $previous = $halaman - 1;
@@ -47,14 +58,14 @@ if (!isset($_GET['page'])) {
             $jumlah_data = count($data_pegawai);
             $total_halaman = ceil($jumlah_data / $batas);
 
-            $databaris = getListLaporanKeuangan($halaman_awal,$batas,$tipe,$cari); // ambil seluruh baris data
+            $databaris = getListValidasiLaporan($halaman_awal,$batas,$tipe,$cari); // ambil seluruh baris data
             $no = $halaman_awal+1;
         foreach ($databaris as $out) { ?>
         <tr>
             <td><?php echo $no; ?></td>
             <td><?php echo $out['Bulan Tahun'] ?></td>
             <td>
-                <a href="" class="btn btn-success">Validasi</a>
+                <a href="?page=laporan&data=<?php echo $out['Bulan Tahun'] ?>" class="btn btn-success">Validasi</a>
                 <a href="?page=detaillaporan&bulantahun=<?php echo $out['Bulan Tahun'] ?>" class="btn btn-warning">Detail</a>
             </td>
         </tr>

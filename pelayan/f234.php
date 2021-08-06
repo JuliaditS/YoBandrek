@@ -22,7 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     <label class="col-form-label">Nomor Meja</label>
                                 </div>
                                 <div class="col-md-6">
-                                    <input type="number" id="nomeja" onkeyup=nomor(this) name="nomeja" class="form-control" min="1" max="100"></input>
+                                    <input type="number" id="nomeja" onkeyup="nomor(this)" onkeypress="return event.charCode >= 48 && event.charCode <= 57" name="nomeja" class="form-control" min="1" max="100"></input>
                                     <span id="cek"></span>
                                 </div>
                             </div>
@@ -31,7 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     <label class="col-form-label">Jumlah Kursi</label>
                                 </div>
                                 <div class="col-md-6">
-                                    <input type="number" name="jukur" class="form-control" min="1" max="20">
+                                    <input type="number" name="jukur" class="form-control" min="1" max="20" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
                                 </div>
                             </div>
 
@@ -42,10 +42,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 </div>
                                 <div class="col-md-6">
                                     <!-- <button type="submit" class="btn btnnew__medium ">Tambah</button> -->
-                                    <button type="button" class="btn btnnew__medium" data-bs-toggle="modal" data-bs-target="#konfirmasi">
+                                    <button type="button" class="btn btnnew__medium" data-bs-toggle="modal" data-bs-target="#konfirmasitambah">
                                         Tambah
                                     </button>
-                                    <div class="modal fade" id="konfirmasi" tabindex="-1" aria-labelledby="konfirmasiModalLabel" aria-hidden="true">
+                                    <div class="modal fade" id="konfirmasitambah" tabindex="-1" aria-labelledby="konfirmasiModalLabel" aria-hidden="true">
                                         <div class="modal-dialog">
                                             <div class="modal-content">
                                                 <div class="modal-header">
