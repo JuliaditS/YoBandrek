@@ -162,7 +162,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     
                             
                     <td>
-                        Rp. <?php echo $tmp2['harga']; ?>
+                        <?php echo rupiah($tmp2['harga']); ?>
                     </td>
                     <td><?php if(empty($d['kode_menu'])){ $lenght = strlen($tmp2['stok']); }else{ $lenght = strlen($d['jumlah']+$d['stok']); }?>
                         

@@ -73,8 +73,26 @@ if (!empty(trim($_POST['cari']))) {
                 <td><?php echo $data['jumlah_kursi']; ?></td>
                 <td>
                     <a href="?page=editmeja&onmeja=<?php echo $data['no_meja']; ?>" class="btn btn-warning"><i class='bx bx-edit'></i></a>
-                    <a href="?page=hapusmeja&onmeja=<?php echo $data['no_meja']; ?>" onclick="return confirm('Apakah anda yakin ingin menghapus field ini?')" class="btn btn-danger"><i class='bx bx-trash'></i></a>
+                    <a data-bs-toggle="modal" data-bs-target="#konfirmasi<?= $data['no_meja']; ?>"  class="btn btn-danger"><i class='bx bx-trash'></i></a>
                 </td>
+                <div class="modal fade" id="konfirmasi<?= $data['no_meja']; ?>" tabindex="-1" aria-labelledby="konfirmasiModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="konfirmasiModalLabel"><i class="fas fa-question-circle fa-sm"></i> Konfirmasi</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            Apakah anda yakin ingin menghapus meja ini?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary"><a href="?page=hapusmeja&onmeja=<?php echo $data['no_meja']; ?>" class="text-light text-decoration-none" >Ya</a></button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tidak</button>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
             </tr>
         <?php $no++;
         } ?>

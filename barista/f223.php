@@ -73,6 +73,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                                                         <th class="col-md-2">Nama pesanan</th>
                                                         <th class="col-md-2">Jenis</th>
                                                         <th class="col-md-2">Jumlah</th>
+                                                        <th class="col-md-2">Keterangan</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -85,6 +86,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                                                             <td><?php echo $data['Nama Menu']; ?></td>
                                                             <td><?php echo $data['Jenis']; ?></td>
                                                             <td><?php echo $data['Jumlah']; ?></td>
+                                                            <td><?php echo $data['Keterangan']; ?></td>
                                                         </tr>
                                                     <?php
                                                     }

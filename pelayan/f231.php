@@ -39,7 +39,8 @@ include 'includes/pelayan__navbar.php';
 <div class="container mt-3">
     <table class="table table-striped table-hover">
         <tr>
-            <th class="col-md-1">Kode</th>
+            <th class="col-md-1">Nomor</th>
+            <th class="col-md-1">Kode menu</th>
             <th class="col-md-3">Nama Menu</th>
             <th class="col-md-2">Jenis</th>
             <th class="col-md-2">Harga</th>
@@ -71,9 +72,10 @@ include 'includes/pelayan__navbar.php';
         foreach ($databaris as $out) { ?>
             <tr>
                 <td><?php echo $no; ?></td>
+                <td><?php echo $out['kode_menu']; ?></td>
                 <td><?php echo $out['nama']; ?></td>
                 <td><?php echo $out['jenis']; ?></td>
-                <td><?php echo 'Rp. ' . $out['harga']; ?></td>
+                <td><?php echo rupiah($out['harga']); ?></td>
                 <td><?php echo $out['diskon'] . '%'; ?></td>
                 <td><?php echo $out['stok']; ?></td>
             </tr>

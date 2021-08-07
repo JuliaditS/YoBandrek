@@ -1,12 +1,39 @@
 <?php
 include 'includes/header.html';
 include 'includes/pelayan__navbar.php';
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+$pesan ="";
+if (isset($_POST['submit'])) {
     $noja = $_POST['nomeja'];
     $jukur = $_POST['jukur'];
-    mysqli_query($conn, "INSERT INTO `data_meja` (`no_meja`, `jumlah_kursi`) VALUES ('$noja', '$jukur')");
-    mysqli_query($conn, "INSERT INTO `deta_meja` (`no_meja`, `no_pemesanan`, `status`) VALUES ('$noja', NULL, 'tersedia')");
-    header("location: ?page=listmeja");
+    
+
+    if(($noja == "") && ($jukur=="")){
+        $pesan = "<div class='alert alert-danger' role='alert'>
+                      Isi semua data terlebih dahulu!
+                    </div>";                
+    }elseif($noja == ""){
+        $pesan = "<div class='alert alert-danger' role='alert'>
+                      Nomor meja tidak boleh kosong!
+                    </div>"; 
+    }elseif($jukur == ""){
+        $pesan = "<div class='alert alert-danger' role='alert'>
+                      Jumlah kursi tidak boleh kosong!
+                    </div>"; 
+    }else{
+
+        $tambah = mysqli_query($conn, "INSERT INTO `data_meja` (`no_meja`, `jumlah_kursi`, `no_pemesanan`, `status`) VALUES ('$noja', '$jukur', NULL, 'tersedia')");
+        if($tambah){
+            $pesan = "<div class='alert alert-success' role='alert'>
+                      Tambah meja berhasil
+                    </div>";
+                    header("Refresh:2; url=?page=listmeja");
+        }else{
+            $pesan = "<div class='alert alert-danger' role='alert'>
+                      Tambah meja gagal!
+                    </div>";
+        }
+    }
 }
 ?>
 <section id="cover">
@@ -17,6 +44,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="col-md-6">
                     <div class="info-form">
                         <form action="?page=tambahmeja" method="POST" class="form-inline justify-content-center">
+                            <?= $pesan ?>
                             <div class="row g-3 align-items-center mb-3">
                                 <div class="col-md-3">
                                     <label class="col-form-label">Nomor Meja</label>
@@ -41,44 +69,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     <label class="col-form-label"></label>
                                 </div>
                                 <div class="col-md-6">
-                                    <!-- <button type="submit" class="btn btnnew__medium ">Tambah</button> -->
-                                    <button type="button" class="btn btnnew__medium" data-bs-toggle="modal" data-bs-target="#konfirmasitambah">
-                                        Tambah
-                                    </button>
-                                    <div class="modal fade" id="konfirmasitambah" tabindex="-1" aria-labelledby="konfirmasiModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="konfirmasiModalLabel">Sukses</h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    Data berhasil ditambahkan
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="submit" class="btn btn-primary">Oke</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <button type="submit" name="submit" class="btn btnnew__medium ">Tambah</button>
+                                    
                                 </div>
                             </div>
                         </form>
-                        <?php
-                        if (isset($_POST['Submit'])) {
-                            $noja = $_POST['nomeja'];
-                            $jukur = $_POST['jukur'];
-
-                            // include database connection file
-                            include_once("config.php");
-
-                            // Insert user data into table
-                            $result = mysqli_query($mysqli, "INSERT INTO `data_meja` (`no_meja`, `jumlah_kursi`) VALUES ('$noja', '$jukur')");
-
-                            // Show message when user added
-                            echo "User added successfully. <a href='index.php'>View Users</a>";
-                        }
-                        ?>
+                        
                     </div>
                 </div>
             </div>

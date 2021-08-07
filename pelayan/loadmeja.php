@@ -4,15 +4,14 @@ include "../includes/functions.php";
 $meja = mysqli_query($conn, "SELECT * FROM `data_meja` ORDER BY `data_meja`.`no_meja` ASC");
 $meja1 = mysqli_query($conn, "SELECT * FROM `data_meja` ORDER BY `data_meja`.`no_meja` ASC");
 $daftar= array();
-function acak($panjang)
-{
-    $karakter= 'ABCDEabcde123456789';
-    $string = '';
+function acak($panjang) {
+    $characters = 'ABCDEabcde123456789';
+    $charactersLength = strlen($characters);
+    $randomString = '';
     for ($i = 0; $i < $panjang; $i++) {
-    $pos = rand(0, strlen($karakter)-1);
-    $string .= $karakter{$pos};
+        $randomString .= $characters[rand(0, $charactersLength - 1)];
     }
-    return $string;
+    return $randomString;
 }
 while($data2 = mysqli_fetch_array($meja1)){
     $daftar[$data2['no_pemesanan']][]=acak(6);
