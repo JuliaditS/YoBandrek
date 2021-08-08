@@ -1,6 +1,6 @@
 <?php include 'includes/header.html' ?>
 <?php include 'includes/pelayan__navbar.php';
-
+error_reporting(0);
 $error = array("");
 $url = substr($_SERVER['QUERY_STRING'],19);
 $menu = mysqli_query($conn, "select * from data_menu where keterangan = 'divalidasi' and stok != 0");

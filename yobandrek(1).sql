@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Aug 02, 2021 at 09:16 AM
+-- Generation Time: Aug 08, 2021 at 08:58 AM
 -- Server version: 5.7.24
--- PHP Version: 7.2.19
+-- PHP Version: 8.0.9
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -39,9 +39,12 @@ CREATE TABLE `data_meja` (
 --
 
 INSERT INTO `data_meja` (`no_meja`, `jumlah_kursi`, `no_pemesanan`, `status`) VALUES
-(1, 5, NULL, 'tersedia'),
-(2, 3, NULL, 'tersedia'),
-(3, 4, NULL, 'tidak tersedia');
+(1, 300, NULL, 'tersedia'),
+(2, 2, NULL, 'tersedia'),
+(3, 4, 14, 'tidak tersedia'),
+(4, 4, 14, 'tidak tersedia'),
+(5, 6, NULL, 'tersedia'),
+(6, 8, 15, 'tidak tersedia');
 
 -- --------------------------------------------------------
 
@@ -65,9 +68,11 @@ CREATE TABLE `data_menu` (
 --
 
 INSERT INTO `data_menu` (`kode_menu`, `nama`, `jenis`, `harga`, `keterangan`, `status`, `diskon`, `stok`) VALUES
-('01', 'Menu apa aja', 'panas', 2000, 'blm divalidasi', 'tidak tersedia', 0, 0),
-('02', 'bandrek ghoib', 'panas', 1300, 'divalidasi', 'tersedia', 1, 2),
-('03', 'bandrek gokil', 'panas', 12000, 'divalidasi', 'tidak tersedia', 2, 0);
+('01', 'Bandrek Panas', 'panas', 10000, 'divalidasi', 'tersedia', 2, 5),
+('02', 'Bandrek Dingin', 'dingin', 30000, 'divalidasi', 'tersedia', 5, 3),
+('03', 'Bandrek Jahe', 'panas', 14000, 'divalidasi', 'tersedia', 10, 1),
+('04', 'Bandrek Mahal', 'panas', 100000, 'blm divalidasi', 'tidak tersedia', 0, 0),
+('06', 'Bandrek 0', 'panas', 1, 'divalidasi', 'tidak tersedia', 100, 0);
 
 -- --------------------------------------------------------
 
@@ -93,7 +98,8 @@ INSERT INTO `data_pegawai` (`id_Pegawai`, `username`, `password`, `nama`, `level
 (5, 'admin3', '32cacb2f994f6b42183a1300d9a3e8d6', 'kasir', 'kasir'),
 (7, 'admin4', 'fc1ebc848e31e0a68e868432225e3c82', 'pelayan', 'pelayan'),
 (11, 'sidiq', '9c51d2a1fac7deab665b77ae1c5fc39c', 'sidiq', 'kasir'),
-(14, 'admin10', '0192023a7bbd73250516f069df18b500', 'admin10', 'pelayan');
+(14, 'admin10', '0192023a7bbd73250516f069df18b500', 'admin10', 'pelayan'),
+(15, 'ownerdumm', 'b356698f91810763cb28889432f3dca8', 'dummyOwner', 'owner');
 
 -- --------------------------------------------------------
 
@@ -103,8 +109,8 @@ INSERT INTO `data_pegawai` (`id_Pegawai`, `username`, `password`, `nama`, `level
 
 CREATE TABLE `data_pembayaran` (
   `id_pembayaran` int(11) NOT NULL,
-  `no_pemesanan` int(11) DEFAULT NULL,
-  `id_kasir` int(6) DEFAULT NULL,
+  `no_pemesanan` int(11) NOT NULL,
+  `id_kasir` int(6) NOT NULL,
   `total_harga` double NOT NULL,
   `pajak` double NOT NULL,
   `uang_pembayaran` double NOT NULL,
@@ -119,9 +125,7 @@ CREATE TABLE `data_pembayaran` (
 --
 
 INSERT INTO `data_pembayaran` (`id_pembayaran`, `no_pemesanan`, `id_kasir`, `total_harga`, `pajak`, `uang_pembayaran`, `uang_kembalian`, `tanggal_pembayaran`, `validasi`, `validator`) VALUES
-(3, 2, 3, 12, 12, 12, 12, '2021-07-31 22:50:35', 'divalidasi', NULL),
-(4, 4, 3, 20000, 0, 50000, 30000, '2021-08-02 05:31:21', 'divalidasi', 3),
-(5, 3, 3, 20000, 0, 20000, 0, '2021-08-02 05:38:38', 'divalidasi', 3);
+(5, 13, 5, 40000, 3830, 80000, 3787, '2021-08-04 20:26:55', 'blm divalidasi', NULL);
 
 -- --------------------------------------------------------
 
@@ -131,7 +135,7 @@ INSERT INTO `data_pembayaran` (`id_pembayaran`, `no_pemesanan`, `id_kasir`, `tot
 
 CREATE TABLE `data_pemesanan` (
   `no_pemesanan` int(11) NOT NULL,
-  `id_pelayan` int(6) DEFAULT NULL,
+  `id_pelayan` int(6) NOT NULL,
   `status_pesanan` enum('diproses','disajikan') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -140,9 +144,9 @@ CREATE TABLE `data_pemesanan` (
 --
 
 INSERT INTO `data_pemesanan` (`no_pemesanan`, `id_pelayan`, `status_pesanan`) VALUES
-(2, 4, 'disajikan'),
-(3, 4, 'diproses'),
-(4, 3, 'disajikan');
+(13, 7, 'disajikan'),
+(14, 7, 'diproses'),
+(15, 7, 'disajikan');
 
 -- --------------------------------------------------------
 
@@ -162,13 +166,11 @@ CREATE TABLE `detail_pemesanan` (
 --
 
 INSERT INTO `detail_pemesanan` (`no_pemesanan`, `kode_menu`, `keterangan`, `jumlah`) VALUES
-(2, '01', 'GK ENAK', 2),
-(2, '03', 'Mayan lah', 6),
-(4, '01', 'UENAK', 8),
-(4, '02', 'bebas', 5),
-(4, '03', 'hmmm', 4),
-(3, '01', 'lama', 1),
-(3, '03', 'haduhhh', 5);
+(13, '01', 'GPL', 1),
+(13, '02', 'GPL', 1),
+(14, '01', 'BOLEH GRATIS?', 4),
+(14, '03', 'BOLEH GRATIS?', 4),
+(15, '02', 'PALAK BAPAK KAU', 6);
 
 --
 -- Indexes for dumped tables
@@ -225,7 +227,7 @@ ALTER TABLE `detail_pemesanan`
 -- AUTO_INCREMENT for table `data_pegawai`
 --
 ALTER TABLE `data_pegawai`
-  MODIFY `id_Pegawai` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id_Pegawai` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `data_pembayaran`
@@ -237,7 +239,7 @@ ALTER TABLE `data_pembayaran`
 -- AUTO_INCREMENT for table `data_pemesanan`
 --
 ALTER TABLE `data_pemesanan`
-  MODIFY `no_pemesanan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `no_pemesanan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- Constraints for dumped tables
@@ -254,7 +256,7 @@ ALTER TABLE `data_meja`
 --
 ALTER TABLE `data_pembayaran`
   ADD CONSTRAINT `data_pembayaran_ibfk_1` FOREIGN KEY (`id_kasir`) REFERENCES `data_pegawai` (`id_Pegawai`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `data_pembayaran_ibfk_2` FOREIGN KEY (`validator`) REFERENCES `data_pegawai` (`id_Pegawai`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `data_pembayaran_ibfk_2` FOREIGN KEY (`validator`) REFERENCES `data_pegawai` (`id_Pegawai`) ON DELETE NO ACTION ON UPDATE CASCADE,
   ADD CONSTRAINT `data_pembayaran_ibfk_3` FOREIGN KEY (`no_pemesanan`) REFERENCES `data_pemesanan` (`no_pemesanan`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
