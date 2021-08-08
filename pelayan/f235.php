@@ -3,11 +3,37 @@ include 'includes/header.html';
 include 'includes/pelayan__navbar.php';
 $no = $_GET['onmeja'];
 $meja = mysqli_fetch_array(mysqli_query($conn, "select * from data_meja where no_meja='$no'"));
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+$pesan= "";
+if (isset($_POST['submit'])) {
     $noja = $_POST['nomeja'];
     $jukur = $_POST['jukur'];
-    mysqli_query($conn, "UPDATE `data_meja` SET `no_meja` = '$noja', `jumlah_kursi` = '$jukur' WHERE `data_meja`.`no_meja` = $no");
-    Header("location: ?page=listmeja");
+
+
+    if(($noja == "") && ($jukur=="")){
+        $pesan = "<div class='alert alert-danger' role='alert'>
+                      Isi semua data terlebih dahulu!
+                    </div>";                
+    }elseif($noja == ""){
+        $pesan = "<div class='alert alert-danger' role='alert'>
+                      Nomor meja tidak boleh kosong!
+                    </div>"; 
+    }elseif($jukur == ""){
+        $pesan = "<div class='alert alert-danger' role='alert'>
+                      Jumlah kursi tidak boleh kosong!
+                    </div>"; 
+    }else{
+        $edit = mysqli_query($conn, "UPDATE `data_meja` SET `no_meja` = '$noja', `jumlah_kursi` = '$jukur' WHERE `data_meja`.`no_meja` = $no");
+        if($edit){
+            $pesan = "<div class='alert alert-success' role='alert'>
+                          Edit meja berhasil
+                        </div>";
+        header("Refresh:2, url=?page=listmeja");
+        }else{
+            $pesan = "<div class='alert alert-danger' role='alert'>
+                      Edit meja gagal!
+                    </div>";
+        }
+    }
 }
 ?>
 <section id="cover">
@@ -18,6 +44,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="col-md-6">
                     <div class="info-form">
                         <form action="?page=editmeja&onmeja=<?php echo $no; ?>" method="POST" class="form-inline justify-content-center">
+                            <?= $pesan; ?>
                             <div class="row g-3 align-items-center mb-3">
                                 <div class="col-md-3">
                                     <label class="col-form-label">Nomor Meja</label>
@@ -42,7 +69,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     <label class="col-form-label"></label>
                                 </div>
                                 <div class="col-md-6">
-                                    <button type="submit" onclick="success()" class="btn btnnew__medium ">Simpan</button>
+                                    <button type="submit" name="submit" class="btn btnnew__medium ">Simpan</button>
                                 </div>
                             </div>
                         </form>
@@ -62,10 +89,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             function(data, status) {
                 document.getElementById("cek").innerHTML = data;
             });
-    }
-
-    function success() {
-        alert("Data berhasil diubah.");
     }
 </script>
 <?php include 'includes/footer.html' ?>

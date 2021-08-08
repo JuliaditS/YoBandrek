@@ -8,11 +8,13 @@ $nomeja = $tmeja[0];
 for($i=1; $i<count($tmeja); $i++){
 $nomeja = $nomeja.','.$tmeja[$i];
 }
+$pesan ="";
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $ket       = $_POST['keterangan'];
     $idpegawai = $_SESSION["id_Pegawai"];
     $jumlah = $_POST['jumlah'];
-    //tabel pemesanan
+    
+        //tabel pemesanan
     mysqli_query($conn, "INSERT INTO `data_pemesanan` (`no_pemesanan`, `id_pelayan`, `status_pesanan`) VALUES (NULL, '$idpegawai', 'diproses')");
     //get no pemesanan
     $getnopem = mysqli_fetch_array(mysqli_query($conn, "SELECT no_pemesanan FROM `data_pemesanan` ORDER BY `data_pemesanan`.`no_pemesanan` DESC"));
@@ -36,7 +38,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             mysqli_query($conn, "UPDATE data_menu SET stok = '$tmpstok',status = 'tidak tersedia' WHERE kode_menu = '$kode'");  
         }
     }
-header("location: ?page=pemesanan");
+    header("location: ?page=pemesanan");
+    
 }
 ?>
 
@@ -61,6 +64,7 @@ header("location: ?page=pemesanan");
                     <div class="col-md-6">
                         <textarea name="keterangan" class="form-control"></textarea>
                     </div>
+                        <?= $pesan; ?>
                 </div>
 
 
@@ -95,7 +99,7 @@ header("location: ?page=pemesanan");
                         </div>
                     </td>
                     <td>
-                        Rp. <?php echo $data['harga']; ?>
+                        <?php echo rupiah($data['harga']); ?>
                     </td>
                     <td>
                         <input name="jumlah[]" type="number" id="jumlah<?php echo $data['kode_menu'];?>" min="1" max="<?php echo $data['stok'];?>"disabled>

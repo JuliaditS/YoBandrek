@@ -129,7 +129,7 @@ function getDetailPemesanan($halaman_awal=Null, $batas=Null, $tipe="semua", $car
 {
     $db = dbConnect();
     if ($db->connect_errno == 0) {
-        $sql = "SELECT detail_pemesanan.kode_menu AS `Kode`, data_menu.nama AS `Nama Menu`, data_menu.jenis AS `Jenis`, detail_pemesanan.jumlah AS `Jumlah` FROM `detail_pemesanan` JOIN data_menu ON detail_pemesanan.kode_menu=data_menu.kode_menu WHERE detail_pemesanan.no_pemesanan = $cari ORDER BY detail_pemesanan.kode_menu ASC ".(($halaman_awal==Null&&$batas==Null) ? "" : "limit $halaman_awal, $batas");
+        $sql = "SELECT detail_pemesanan.kode_menu AS `Kode`, data_menu.nama AS `Nama Menu`, data_menu.jenis AS `Jenis`, detail_pemesanan.jumlah AS `Jumlah`, detail_pemesanan.keterangan AS `Keterangan` FROM `detail_pemesanan` JOIN data_menu ON detail_pemesanan.kode_menu=data_menu.kode_menu WHERE detail_pemesanan.no_pemesanan = $cari ORDER BY detail_pemesanan.kode_menu ASC ".(($halaman_awal==Null&&$batas==Null) ? "" : "limit $halaman_awal, $batas");
         $res = $db->query($sql);
         if ($res) {
             $data = $res->fetch_all(MYSQLI_ASSOC);
