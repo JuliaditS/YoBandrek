@@ -18,7 +18,12 @@ if(isset($_POST['submit'])){
         $pesan = "<div class='alert alert-danger' role='alert'>
                       Isi semua data terlebih dahulu!
                     </div>";
-    }elseif(empty($kodemenu)){
+    }elseif(empty($namamenu)){
+        $pesan = "<div class='alert alert-danger' role='alert'>
+                      Nama menu tidak boleh kosong!
+                    </div>";
+    }
+    elseif(empty($kodemenu)){
         $pesan = "<div class='alert alert-danger' role='alert'>
                       Kode menu tidak boleh kosong!
                     </div>";

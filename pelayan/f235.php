@@ -50,7 +50,7 @@ if (isset($_POST['submit'])) {
                                     <label class="col-form-label">Nomor Meja</label>
                                 </div>
                                 <div class="col-md-6">
-                                    <input type="number" id="nomeja" onkeyup=nomor(this) name="nomeja" value="<?php echo $meja['no_meja']; ?>" class="form-control"></input>
+                                    <input type="number" id="nomeja" onkeyup=nomor(this) name="nomeja" min="1" max="100" value="<?php echo $meja['no_meja']; ?>" class="form-control"></input>
                                     <span id="cek"></span>
                                 </div>
                             </div>
@@ -59,7 +59,7 @@ if (isset($_POST['submit'])) {
                                     <label class="col-form-label">Jumlah Kursi</label>
                                 </div>
                                 <div class="col-md-6">
-                                    <input type="number" name="jukur" value="<?php echo $meja['jumlah_kursi']; ?>" class="form-control">
+                                    <input type="number" name="jukur"  min="1" max="20" value="<?php echo $meja['jumlah_kursi']; ?>" class="form-control">
                                 </div>
                             </div>
 
