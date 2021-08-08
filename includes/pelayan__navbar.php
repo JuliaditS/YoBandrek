@@ -24,7 +24,7 @@ if ($_SESSION["level"]!="pelayan") {
                     <a class="nav-link" href="?page=pemesanan">Pemesanan</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link btn" data-bs-toggle="modal" data-bs-target="#konfirmasi">Logout</a>
+                    <button class="nav-link btn" data-bs-toggle="modal" data-bs-target="#konfirmasi">Logout</button>
 
                     <div class="modal fade" id="konfirmasi" tabindex="-1" aria-labelledby="konfirmasiModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
